@@ -1,0 +1,20 @@
+Combining the Power of Explicit and Tacit Knowledge for Better AI
+
+This research explores how two areas of Artificial Intelligence (AI), Natural Language Processing (NLP) and AI planning, can be effectively integrated to improve communication between humans and intelligent agents. NLP focuses on analyzing and understanding large amounts of natural language data, while AI planning deals with building models that can reason and create plans to achieve specific goals.
+
+Challenges and a Promising Solution
+
+While large language models have become a major force in NLP, they often lack explainability and can be complex. This paper proposes that combining NLP with AI planning can address these shortcomings. AI planning uses explicit knowledge in the form of rules, while NLP excels at learning implicit or tacit knowledge from data. By bringing these strengths together, researchers believe they can create more effective and understandable AI models.
+
+Key Areas of Improvement
+
+The paper highlights several areas where this integration can be particularly beneficial:
+
+    Planning-based Text Understanding: Extracting actions and building domain models from textual data.
+    Planning-based Natural Language Processing: Generating different creative text formats like summaries or translations using a planning approach.
+    Planning-based Explainability: Making AI models more understandable by leveraging planning techniques.
+    Text-based Human-Robot Interaction: Enabling robots to better understand and respond to natural language instructions.
+
+Overall Impact and Future Directions
+
+This research suggests that integrating AI planning and NLP is a promising area with the potential to significantly improve human-AI communication. The authors acknowledge that more research is needed, particularly to bridge the gap between these two fields and to improve our understanding of the vast amount of implicit knowledge hidden within text data. Overall, this study paves the way for more effective and user-friendly AI in the future.

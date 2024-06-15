@@ -1,0 +1,209 @@
+ABSTRACT Artificial Intelligence (AI) is a fast-growing area of study that stretching its presence to many
+business and research domains. Machine learning, deep learning, and natural language processing (NLP)
+are subsets of AI to tackle different areas of data processing and modelling. This review article presents an
+overview of AI’s impact on education outlining with current opportunities. In the education domain, student
+feedback data is crucial to uncover the merits and demerits of existing services provided to students. AI can
+assist in identifying the areas of improvement in educational infrastructure, learning management systems,
+teaching practices and study environment. NLP techniques play a vital role in analyzing student feedback in
+textual format. This research focuses on existing NLP methodologies and applications that could be adapted
+to educational domain applications like sentiment annotations, entity annotations, text summarization, and
+topic modelling. Trends and challenges in adopting NLP in education were reviewed and explored. Context-
+based challenges in NLP like sarcasm, domain-specific language, ambiguity, and aspect-based sentiment
+analysis are explained with existing methodologies to overcome them. Research community approaches to
+extract the semantic meaning of emoticons and special characters in feedback which conveys user opinion
+and challenges in adopting NLP in education are explored.
+INDEX TERMS Artificial Intelligence, Natural Language Processing, Education, Deep Learning
+I. INTRODUCTION
+Artificial Intelligence (AI) is a fast-growing topic with
+its cognitive human-like intelligence in building decision-
+making systems. AI can revolutionize education with its
+capacity for prediction and classification by processing huge
+amounts of structured data sets such as SQL databases
+and unstructured datasets such as videos and audios. AI
+introduces machine learning methodologies to personalize
+the student learning experience via learning management
+systems [1], deep learning, and transfer learning to use
+pre-trained concepts to deal with new similar problems [2],
+natural language processing (NLP) methods [3] to listen to
+student feedback, process them and output predictive in-
+sights on their opinion towards learning infrastructure. AI
+can transform existing educational infrastructures [4] namely
+online tutoring, learning management systems, curriculum,
+employment transitions, teacher training, assessments, and
+research training. The institutional project data are diverse
+and inclusive of student feedback in textual format class-
+room recordings in video and audio formats.
+Chassignol et al. [5] defined AI as an “Artificial Intelli-
+gence is that activity devoted to making machines intelligent,
+and intelligence is that quality that enables an entity to
+function appropriately and with foresight in its environment”.
+Educational institutions have extensively adopted AI in dif-
+ferent forms of service delivery to students [6]. One of
+the most widely used AI methodologies for student opinion
+mining is NLP [7]. It plays a key role in interpreting feedback
+or opinions of end-users. Most institutions in the world invest
+their time and resources to understand end-users’ feedback.
+NLP can read the feedback in most languages without much
+human intervention and can analyze textual data and unwrap
+the end-user perception and opinion on a service, product,
+or human. In recent years, NLP has been applied to review
+movies, books, gadgets and so on [8]. Topic modelling tech-
+niques are part of NLP to read text corpus and can summa-
+rize, annotate or categorize text documents. Furthermore, it
+uses various techniques like part-of-speech (POS) tagging to
+understand the context of words.
+Eggert [9] discussed the opportunities of AI in education.
+The author proposed an AI method to improve teaching
+methods by collecting vast amounts of data related to each
+student’s prior knowledge, emotional state, or economic
+background and adjusting the teaching approach through
+adaptive learning platforms (ALP). Intelligent tutoring sys-
+tems (ITS) is one of the ALP components. With automa-
+tion of repeated tasks would allow teaching staff to design
+new instructional approach and focus on non-routine work.
+The other opportunity discussed in that article is to expose
+students to some AI-driven tools to cope with the future
+labour world that is highly dependent on technologies and
+focus on lifelong learning via improved access to Massive
+Open Online Courses (MOOCs). AI can enhance student’s
+learning experience in MOOCs by identifying areas where
+personalized guidance is required. Holstein et al. [10] also
+stressed the need for personalized guidance to students in
+their work on AI-enhanced classrooms. Using participatory
+speed dating (PSD) [11], the authors found real-time support
+was needed from the AI system to identify when a student
+needs a human’s help for motivation. Holstein et al. [12]
+also focused on the challenges of involving non-technical
+stakeholders due to the complexity of learning analytics
+systems [13]. The authors proposed Konscia, a wearable
+and real-time awareness tool for teachers working in AI-
+enhanced K-12 classrooms. In addition, they demonstrated
+the process of non-technical stakeholders’ participation in
+designing a complex learning analytics system. Alrajhi et
+al. [14] stressed the need to analyse student feedback or
+comments in MOOC as it would help to understand the
+student need for intervention from instructors.
+Chen et al. [6] surveyed the impact of AI on education. The
+authors discussed the technical aspects of AI in education:
+assessment of students and schools, grading and evaluating
+papers and exams, smart schools, personalized intelligent
+teaching, online and mobile remote education. Their study
+scope was confined to the application and effects of AI in
+administration, teaching, and learning. To enable instructors
+and teachers with effective grading capabilities, an adap-
+tive learning method was used in applications of Knewton
+and ensured a continuous student improvement in learn-
+ing [15]. Applications like Grammarly, Ecree, Paper-Rater
+and Turnitin leverage AI to assist educational institutions and
+teachers in performing plagiarism checks, typographical and
+grammatical error checks. The student learning experience is
+an essential aspect of the education domain. AI enables an
+adaptive learning system for students based on their back-
+grounds to assist in tracking their learning progression and
+enhance the system to customize the content according to
+student’s needs to leverage a personalized system. A quick
+interactive system using AI would reduce the gap between
+students and educational providers and assist in listening to
+students’ opinions and queries.
+With the extensive research being conducted in analyzing
+AI’s impact on education [16], [17] and discovering the op-
+portunities in the education domain, educational institutions
+have focused on building a cognitive intelligent system using
+AI. In this process, the foremost step is to listen to students’
+opinions and feedback on existing educational infrastructure,
+teaching practices, and learning environments. In academic
+institutions, it is traditional practice to request student feed-
+back to gather students’ perception of the teaching team and
+their learning experience in the course. The student feedback
+could be in quantitative or qualitative formats, using numer-
+ical answers to rate the performance or textual comments
+to questions [18]. Monitoring and tracking students’ feed-
+back manually is a time-consuming and resource-demanding
+task. NLP can contribute to this task with its annotation
+and summarization capabilities. This study reviewed NLP
+methodologies that can contribute to the education domain,
+and the following research questions were explored:
+• What are the existing methodologies being used for
+NLP?
+• What are the generic challenges of using NLP in the
+education domain?
+• What are the current trends of NLP in student feedback
+analysis?
+• How can NLP methodology in other disciplines be
+adopted to the education domain?
+Machine learning and deep learning are part of AI method-
+ologies. Machine learning is a set of algorithms can ana-
+lyze data, learn and apply. Deep learning techniques holds
+multi-layer neural network with processing layers to train
+new concepts and link to previously known concepts. Deep
+learning enhances NLP with concepts like continuous-bag-
+of-words and skip-gram model. Convolutional neural net-
+works (CNNs) [19], recurrent neural networks (RNNs),
+their special cases of long short-term memory (LSTM) and
+gated recurrent units (GRUs) are different forms of deep
+learning techniques used in text classification [20] [21]. In
+this article, existing works using the AI methodologies to
+analyze text data are explored. Although few research works
+are not directly related to student feedback, the methods can
+be adopted to students’ feedback analysis.
+The contributions of this research are as follows:
+• Enhanced understanding of the impact of AI on educa-
+tion with open opportunities in the industry. • Synthesis of existing NLP methodologies to student
+user feedback and annotate their views.
+• Exploring trends and challenges in NLP that need to be
+addressed to be adopted to the education domain.
+The remainder of the paper is organized into sections.
+Section II defined feature extraction, feature selection, and
+topic modelling techniques with other researchers’ work.
+Text evaluation techniques like summarization, knowledge
+graphs, annotation, existing NLP methodologies being used
+for NLP are defined. In Section III, challenges in adopting
+NLP in the education domain are discussed. Section IV
+presents a discussion on this work. The article concludes
+with limitations and future work of the study presented in
+Section V
+
+V. CONCLUSIONS
+The aim of the study is to explore existing NLP method-
+ologies that can be implemented or adopted in education
+domain. This assist to understand AI impact on education
+with open opportunities, synthesize the methods to process
+student feedback, and annotate their views. The literature re-
+view has been performed using Google Scholar covering bib-
+liographic databases such as Wiley, Scopus, Springer, ACM
+Digital Library, IEEE Xplore, Pub-Med, Science Direct, and
+Multidisciplinary Digital Publishing Institute (MDPI) and so
+FIGURE 9. Year-wise References Distribution
+FIGURE 10. References Distribution
+on. The search results of Google Scholar were manually
+checked for relevance NLP techniques in student feedback
+or education applications that can be adopted to the feedback
+analysis. For example, Twitter data analysis which consists
+of short text analysis using NLP similar student feedback. As
+shown in Figure 9, the majority of the references included in
+this study are from the last 5 years. Also, more than 90%
+percent of the citation included in this study are journal
+articles and conference papers. Table 2 presents the NLP
+techniques explored in this study and corresponding research
+community works citations.
+In this review article, the impact of AI on education was
+discussed. The scope of introducing AI into educational
+institutions is detailed based on the opportunities. Limiting
+the scope of introducing NLP methodologies to education
+for feedback analysis in this article, existing NLP method-
+ologies were explored. Feature extraction, feature selection
+and topic modelling methodologies were explained with brief
+definitions. Further to this, text evaluation techniques text
+summarization, annotation, and knowledge graphs were re-
+viewed. Each of these applications was defined and existing
+approaches were discussed. Challenges in adopting NLP
+methodologies to the education domain were reviewed. The
+limitation of this research is that this study is confined to AI
+implementation methodologies with less focus on pedagogy
+concepts. Data specific challenges like data scarcity and class
+imbalance were not discussed. This would affect the model
+learning for deep learning algorithms, which are data hungry.
+Strategies to interpret deep learning models (black box) were
+not explored. The future direction of this research would
+be to explore data challenges while extracting feedback or
+opinions without affecting privacy.
