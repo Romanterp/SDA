@@ -1,0 +1,18 @@
+The study introduces an innovative approach to enhance transparency in conversational AI systems, specifically chatbots. The research team developed an end-to-end prototype, TalkTuner, which integrates interpretability techniques with user experience design. This prototype allows users to see the internal state of the chatbot, including the user model, and control how the system perceives them.
+
+The study reveals that the chatbot's internal user model is based on user attributes like age, gender, education level, and socioeconomic status. The researchers designed a dashboard that displays this information in real-time, enabling users to observe and adjust the system's internal representation of themselves.
+
+A user study demonstrated positive outcomes, with participants appreciating the transparency and control provided by the dashboard. The study highlights the value of user research in interpretability, as participants uncovered biases related to socioeconomic status that were not initially anticipated.
+
+The authors conclude that TalkTuner provides evidence for a pathway toward more transparent and instrumented AI systems. They emphasize the importance of user-centered design and continuous improvement in the field of AI interpretability.
+
+The study's findings have significant implications for the development of AI systems, particularly in the realm of conversational AI. By making AI systems more transparent and interactive, this approach not only enhances user trust but also reveals and addresses biases previously hidden within AI interactions.
+
+Key takeaways from the study include:
+
+1. The importance of transparency in AI systems, particularly in conversational AI.
+2. The value of user research in interpretability, as participants uncovered biases related to socioeconomic status.
+3. The potential benefits of user-controlled transparency dashboards for chatbots.
+4. The need for further investigation into user experience design, including handling sensitive attributes and adapting the design for voice-based or video-based systems.
+
+Overall, the study presents a promising step towards making conversational AI systems more transparent and accountable, while also underscoring the importance of user-centered design and continuous improvement in the field of AI interpretability.

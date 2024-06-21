@@ -1,0 +1,15 @@
+## Bridging the Gap: New Tools for Accurate Movement Analysis with AI
+
+Imagine using cameras to analyze human movement as precisely as traditional methods in physical therapy or sports science. This research advances us towards that goal by bridging the gap between two fields: computer vision and biomechanics.
+
+Traditionally, studying human movement involved specialized labs and trained personnel. While computer vision offers promise with pose estimation models that predict body posture from videos, the gap lies in how these models are evaluated. Current methods focus on how close key points are to actual joints, neglecting the biomechanical aspects of movement.
+
+This research introduces OpenCapBench, a new benchmark that uses a well-established biomechanics software (OpenSim) to assess the accuracy of pose estimation models. This allows researchers to analyze not just where joints are, but also how they move within the constraints of the body. They found that current pose estimation models using sparse keypoints (focusing only on joint centers) lead to significant errors in analyzing joint angles.
+
+To address this, they propose SynthPose, a method that refines existing pose estimation models using synthetic data. This allows the models to predict a denser set of keypoints, leading to more accurate biomechanical analysis. They showed that SynthPose can reduce errors in joint angle analysis by up to twofold.
+
+This research has significant implications for both computer vision and biomechanics. Computer vision researchers gain a more realistic way to evaluate their models, while biomechanics researchers can potentially leverage these models in clinical settings without needing specialized equipment.
+
+There are limitations to this initial work. The dataset used currently lacks diversity in terms of people, environments, and activities. Additionally, it focuses on lower body movements. However, the open-source nature of OpenCapBench allows the community to contribute and expand its capabilities. This could include adding upper body analysis, 3D pose estimation, and exploring different applications.
+
+Overall, this research represents a significant step towards using AI for accurate movement analysis. By combining the strengths of computer vision and biomechanics, it paves the way for improved healthcare and performance evaluation in the future.

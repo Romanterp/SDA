@@ -1,0 +1,32 @@
+## Making Chatbots More Transparent: A User-Centered Approach
+
+This research tackles the issue of transparency in conversational AI, specifically focusing on how chatbots use internal models of users to tailor their responses. 
+
+**Limited Transparency: A Problem for Users**
+
+The widespread use of chatbots raises concerns because their inner workings are often opaque. Users are left in the dark about how the system arrives at its responses, potentially leading to biased or misleading interactions. 
+
+**Introducing the TalkTuner System: Transparency with User Control**
+
+To address this challenge, the researchers developed TalkTuner, a unique system that provides transparency alongside user control. TalkTuner achieves this through three key components:
+
+1. **Unveiling the User Model:**  The system extracts data on user characteristics like age, gender, education, and socioeconomic status from the chatbot's internal state.
+2. **Dashboard Design:**  This information is presented on a user-friendly dashboard that accompanies the chat interface. 
+3. **User Control:**  The dashboard allows users to modify the chatbot's internal user model, potentially mitigating biases.
+
+**User Study Reveals Benefits and Opportunities**
+
+A user study evaluated TalkTuner's effectiveness. The findings suggest that users appreciate seeing the internal user model. This transparency helped them identify potential bias in the chatbot's responses and provided a sense of control over the interaction. Users also offered valuable suggestions for future development, highlighting areas for improvement in design and addressing user concerns like privacy.
+
+**Looking Forward: Transparency as a Design Principle**
+
+The research team emphasizes the importance of transparency in making AI systems safer and more trustworthy. TalkTuner serves as a proof-of-concept that user-centered design can bridge the gap between technical advancements in interpretability and user experience. The positive user response and valuable feedback pave the way for a future where AI systems are instrumented and users have a clearer understanding of how these systems work.
+
+**Key Takeaways and Future Directions**
+
+* User research plays a crucial role in identifying and addressing biases in AI systems.
+* TalkTuner demonstrates the potential of user-controlled transparency dashboards for chatbots.
+* Future research can expand on the user model concept to encompass a wider range of user characteristics.
+* Privacy considerations and user experience design require further exploration, particularly for voice and video-based AI systems.
+
+This research signifies a significant step towards achieving transparency in conversational AI, with potential benefits for both users and developers. 

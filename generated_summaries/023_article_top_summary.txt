@@ -1,0 +1,13 @@
+Making Chatbots More Transparent: A User-Centered Approach
+
+Conversational Artificial Intelligence (AI) interfaces have become increasingly popular, but their inner workings often remain opaque. This lack of transparency can lead to biased or misleading interactions, as users are unaware of how the system arrives at its responses. To address this issue, researchers developed the TalkTuner system, which provides transparency alongside user control.
+
+The TalkTuner system is an end-to-end prototype that connects interpretability techniques with user experience design. It consists of three key components: unveiling the user model, dashboard design, and user control. The user model is extracted from the chatbot's internal state, providing information on user characteristics such as age, gender, education, and socioeconomic status. This information is then presented on a user-friendly dashboard that accompanies the chat interface. The dashboard allows users to modify the chatbot's internal user model, potentially mitigating biases.
+
+A user study evaluated the effectiveness of TalkTuner, and the findings suggest that users appreciate seeing the internal user model. This transparency helped users identify potential bias in the chatbot's responses and provided a sense of control over the interaction. Users also offered valuable suggestions for future development, highlighting areas for improvement in design and addressing user concerns like privacy.
+
+The research team emphasizes the importance of transparency in making AI systems safer and more trustworthy. TalkTuner serves as a proof-of-concept that user-centered design can bridge the gap between technical advancements in interpretability and user experience. The positive user response and valuable feedback pave the way for a future where AI systems are instrumented and users have a clearer understanding of how these systems work.
+
+Key takeaways from this research include the importance of user research in identifying and addressing biases in AI systems, the potential of user-controlled transparency dashboards for chatbots, and the need for future research to expand on the user model concept and explore user experience design for voice and video-based AI systems.
+
+Overall, this research signifies a significant step towards achieving transparency in conversational AI, with potential benefits for both users and developers. By providing users with a clearer understanding of how AI systems work, we can build trust and ensure that these systems are used responsibly.

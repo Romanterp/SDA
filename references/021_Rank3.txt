@@ -1,0 +1,11 @@
+## Benchmarking Big Language Models: Understanding the Wobble
+
+Imagine trying to measure the height of a growing tree. You might use a ruler, but how reliable would that measurement be if you only took it once? This paper explores a similar challenge in the world of large language models (LLMs). LLMs are computer programs that can generate text, translate languages, write different kinds of creative content, and answer your questions in an informative way. Evaluating their capabilities is crucial, and a key tool for this is the benchmark – a set of tasks that test the LLM's performance.
+
+Just like that single ruler measurement, benchmark scores can be misleading if we don't consider their variability. This variability, called variance, can be caused by different factors, such as the way the task is phrased or the random starting point used when training the model. The authors of this paper studied variance in LLM benchmarks on a large scale, looking at 13 different benchmarks and 280 different models.
+
+Their findings are three-fold. First, they provide a reference point for how much variance to expect from different benchmarks. This is helpful for researchers comparing LLMs, as it allows them to assess whether observed differences in performance are actually meaningful. Second, they suggest ways to reduce variance for smaller models on specific tasks. For instance, they found that rephrasing a choice-based task can lead to more consistent results.
+
+Third, the paper discourages the use of certain methods borrowed from human testing to reduce variance in LLMs. While these methods might be effective for evaluating human performance, they don't seem to work well for LLMs. Instead, the authors recommend techniques specifically designed for LLMs, such as using continuous scoring metrics or tasks where the model has to fill in missing words.
+
+Overall, this research sheds light on a critical but often overlooked aspect of LLM evaluation – variance. By quantifying this variability and exploring methods to reduce it, the authors pave the way for more reliable comparisons of LLMs, ultimately helping us understand and improve these powerful language tools.

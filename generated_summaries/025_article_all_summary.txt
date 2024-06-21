@@ -1,0 +1,9 @@
+The study investigates the phenomenon of "package hallucinations" in AI code generation models, where these models recommend or include non-existent software packages. The researchers found that nearly 20% of the generated packages are fake, posing a significant security risk through "package confusion attacks." They also explored various factors influencing hallucinations and proposed several mitigation strategies.
+
+The findings highlight the importance of addressing package hallucinations to ensure the reliability and security of AI-assisted software development. The research underscores the need for ongoing efforts to develop more robust and trustworthy AI code generation models.
+
+Here is the summary of the three models, ranked based on the severity of the package hallucinations they exhibited:
+
+1. **ChatGPT**: With an alarming 19.7% of generated packages being hallucinated, ChatGPT exhibits the most severe package hallucination issue.
+2. **Claude**: Claude's package hallucination rate is slightly lower, at 17.4%, but still poses a significant security risk.
+3. **Gemini**: Gemini's package hallucination rate is the lowest, at 12.5%, but still requires attention to ensure the security and reliability of AI-assisted software development.
