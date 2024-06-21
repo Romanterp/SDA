@@ -1,0 +1,13 @@
+Conversational AI systems, like chatbots, have gained immense popularity, with OpenAI's ChatGPT boasting over 100 million users. However, these systems lack transparency, making it difficult for users to understand why they receive certain responses. This lack of transparency raises concerns about potential biases and the truthfulness of the system's outputs.
+
+In this research, the authors present a prototype that aims to make chatbots more transparent by connecting interpretability techniques with user experience design. They begin by examining the internal state of an open-source conversational AI model, LLaMa2Chat-13B, and extracting data related to a user's age, gender, educational level, and socioeconomic status. This evidence suggests that the model has an internal "user model" that influences its responses.
+
+The researchers then designed a dashboard that displays this user model in real-time alongside the chatbot interface. This dashboard allows users to control and modify the user model, potentially influencing the system's behavior.
+
+Through a user study, the authors found that participants appreciated seeing the internal states of the chatbot, which helped them expose biased behavior and increased their sense of control over the system. Additionally, participants provided valuable suggestions for future improvements in both design and machine learning research.
+
+The authors conclude that their end-to-end prototype provides evidence for a pathway toward more transparent and instrumented AI systems. They highlight the value of user research in interpretability, as participants uncovered subtle types of biases related to socioeconomic status that were not initially anticipated.
+
+Looking ahead, the researchers suggest generalizing the user model to include more nuanced attributes, addressing privacy concerns, and exploring task-oriented dashboards for different applications. They also emphasize the need for further investigation into the user experience of such dashboards, including handling sensitive attributes and adapting the design for voice-based or video-based systems.
+
+Overall, this research presents a promising step towards making conversational AI systems more transparent and accountable, while also underscoring the importance of user-centered design and continuous improvement in the field of AI interpretability.

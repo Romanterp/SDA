@@ -1,0 +1,31 @@
+## Making Large Language Models More Trustworthy: A New Approach
+
+This research tackles the challenge of ensuring the reliability of outputs from large language models (LLMs) like ChatGPT and Gemini. LLMs are powerful tools, but they can also generate incorrect or misleading information. This paper proposes new methods to improve the trustworthiness of LLM outputs.
+
+**The Problem: Unreliable LLM Outputs**
+
+LLMs are impressive for their ability to handle various natural language tasks. However, they often make mistakes, such as confidently stating false facts or generating offensive content. This lack of reliability hinders their use in situations where accuracy and safety are crucial, like legal work or customer service.
+
+**Existing Solutions and Limitations**
+
+Researchers have explored various approaches to quantify the uncertainty of LLM outputs. One method, conformal inference, aims to create prediction sets that are guaranteed to contain the correct answer with high probability. While promising, current methods have limitations.
+
+* **Conditional Validity:** The accuracy guarantee might not hold true for all situations. For instance, the trustworthiness of an LLM's response on a specific topic might vary.
+* **Limited Usefulness:** Existing methods remove too much information from the LLM's output to ensure accuracy. This can make the filtered response unusable.
+
+**New Methods for Improved Trustworthiness**
+
+This research addresses these limitations by introducing two new conformal inference methods:
+
+* **Conditional Boosting:** This method automatically improves the scoring function used to assess the validity of LLM claims. This leads to retaining more accurate information from the original output.
+* **Level-Adaptive Conformal Prediction:** This method tailors the claimed probability of correctness to the specific prompt. This allows for preserving more of the original LLM response while still providing a reasonable guarantee of accuracy.
+
+**Benefits and Effectiveness**
+
+The researchers demonstrate the effectiveness of their methods through experiments. The results show that these methods can:
+
+* Achieve well-calibrated probabilities: The claimed probability of correctness closely matches the actual accuracy of the filtered response.
+* Retain more information: The filtered outputs contain a significant portion of the original LLM response, making them more useful.
+
+These advancements pave the way for more reliable and trustworthy LLMs, expanding their potential applications in various domains.
+ 

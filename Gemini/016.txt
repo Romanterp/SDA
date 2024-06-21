@@ -1,0 +1,35 @@
+## The Rise of 3D Egocentric AI: New Benchmarks and Building Blocks
+
+Imagine AI that understands the world from your perspective, using data captured by wearable devices like smart glasses. This research delves into this exciting field of Egocentric Foundation Models (EFMs). 
+
+**The Need for 3D Egocentric Understanding:**
+
+Large language models have revolutionized AI by learning from massive amounts of text and image data. Now, wearable computers provide a new source of information: egocentric sensor data. This data comes with precise 3D location details, opening doors for a new generation of AI models that reason and understand the 3D world around us.
+
+**Introducing EFM3D: A Benchmark for 3D Egocentric AI**
+
+Similar to how benchmarks gauge progress in image recognition, this research proposes EFM3D – the first benchmark for 3D EFMs. EFM3D focuses on two key tasks:
+
+1. **3D Object Detection:** Identifying and pinpointing objects in 3D space, like a coffee cup on a table.
+2. **Surface Regression:** Understanding the 3D shapes and surfaces of objects in the environment.
+
+The EFM3D benchmark, along with a large-scale simulated dataset, paves the way for researchers to develop and test new EFM models.
+
+**Building a Strong Foundation: The Egocentric Voxel Lifting (EVL) Model**
+
+The research also introduces a baseline model called EVL. EVL leverages several key elements:
+
+* **3D Voxel Representation:** It breaks down the 3D world into small cubes (voxels) to process information spatially.
+* **Egocentric Sensor Data:** It utilizes all the data streams from wearable devices, including color and grayscale video, depth information, and camera position data.
+* **2D Image Features from Foundation Models:** It incorporates knowledge from existing, powerful image recognition models.
+
+By combining these elements, EVL demonstrates superior performance on the EFM3D benchmark compared to existing methods.
+
+**Looking Ahead: The Future of 3D Egocentric AI**
+
+This research is a stepping stone for building even more sophisticated 3D EFMs. The authors envision models that can:
+
+* Understand how the environment changes over time (dynamic scene understanding).
+* Take into account the user's interactions with the environment.
+
+These advancements hold promise for a wide range of real-world applications, from augmented reality experiences to improved human-computer interaction.

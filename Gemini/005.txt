@@ -1,0 +1,24 @@
+## Transformer Compression: Achieving Speedups Without Sacrificing Accuracy
+
+Transformer models are powerful tools in various fields, especially natural language processing. However, their training can be resource-intensive. This research introduces STAT, a new method to compress these models without retraining (fine-tuning). STAT achieves this by eliminating unnecessary parts of the model, like attention heads and neurons, while making adjustments to preserve accuracy.
+
+**Key Benefits:**
+
+* **Faster Inference:** STAT slims down transformer models, leading to faster processing times for tasks like machine translation or text summarization. 
+* **Maintains Accuracy:** Unlike other compression techniques, STAT avoids sacrificing accuracy by calculating corrections for the remaining parts of the network. 
+* **Broad Applicability:** The method works effectively with various transformer architectures, including popular models like BERT and DistilBERT. It even scales well to handle massive models with billions of parameters. 
+
+**How it Works:**
+
+STAT leverages a technique called matrix factorization to identify and remove redundant elements within the transformer's building blocks. This process is performed using a small amount of data, eliminating the need for extensive retraining. Importantly, STAT incorporates randomized techniques to efficiently handle even the largest models.
+
+**Comparison with Existing Methods:**
+
+* **Reduced Training Costs:** STAT bypasses fine-tuning, a resource-hungry step in traditional compression techniques. 
+* **Superior Performance:** Compared to existing methods, STAT offers a better trade-off between model size and accuracy, often exceeding even those that involve significant retraining.
+
+**Future Directions:**
+
+The researchers acknowledge limitations in STAT, such as the need for minor adjustments based on the specific network architecture. They plan to explore these aspects further and refine the method for even broader applicability.
+
+**Overall, STAT presents a significant advancement in transformer compression. By enabling faster processing without compromising accuracy, it opens doors for deploying these powerful models in resource-constrained environments.** 

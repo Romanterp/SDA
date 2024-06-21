@@ -1,0 +1,13 @@
+In a groundbreaking development, researchers have introduced new conformal inference methods that provide validity guarantees for the outputs of large language models (LLMs). As LLMs like ChatGPT and Gemini become increasingly prevalent, ensuring their reliability and mitigating potential hallucinations or toxic outputs has become a pressing concern.
+
+The study aims to address two key limitations of existing conformal language modeling approaches. First, previous methods offered only marginal guarantees, failing to account for variations in output correctness based on the prompt's subject matter. Second, the filtering techniques employed often removed too many accurate claims, diminishing the utility of the output.
+
+To tackle these challenges, the researchers propose two innovative methods. The first, dubbed "conditional boosting," allows for the automated discovery of superior claim scoring functions by differentiating through a conditional conformal algorithm. This approach enables greater claim retention while preserving validity guarantees.
+
+The second method, "level-adaptive conformal prediction," adaptively adjusts the claimed probability of correctness for each prompt, ensuring that at least 70% of the original sub-claims are retained. This method addresses the issue of excessive claim removal while maintaining calibrated probabilities of correctness.
+
+By combining these two methods, the researchers demonstrate the ability to retain most claims from the original LLM output while providing non-trivial guarantees of response factuality. The issued probabilities of correctness vary between 50% and 85%, a significant improvement over existing methods that often retained very little of the original output.
+
+While the study acknowledges the impossibility of exact conditional guarantees without strong distributional assumptions, it presents an interpretable alternative: group-conditional calibration. This approach ensures that the claimed probability of factuality matches the true probability of factuality across groups defined by prompt topic, data provenance, or other relevant characteristics.
+
+The researchers' innovative techniques represent a promising step towards practical and usable guarantees for LLM outputs, paving the way for more reliable and trustworthy applications of these powerful models in various domains, including legal work, customer service interactions, and beyond.

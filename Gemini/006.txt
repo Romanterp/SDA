@@ -1,0 +1,17 @@
+## AI Language Models: Security Risks and Safeguards
+
+Large language models (LLMs) are powerful AI tools gaining traction across various industries. However, their security vulnerabilities raise concerns, prompting research into defense mechanisms. This survey explores these security challenges, focusing on two main attack categories: Prompt Hacking and Adversarial Attacks.
+
+LLMs are trained on massive internet data, which might contain sensitive information. This raises the risk of data leakage and the potential for LLMs to be misused, for example, by teaching malicious skills. While safety controls exist, attackers develop increasingly sophisticated strategies to exploit weaknesses.
+
+This survey emphasizes two attack categories relevant to both open-source and closed-source LLMs: Prompt Hacking and Adversarial Attacks.
+
+* **Prompt Hacking** manipulates the prompts or instructions given to the LLM. This can involve injecting malicious code or "jailbreaking" the system to bypass safety measures, potentially leading to data leaks or harmful content generation.
+* **Adversarial Attacks** aim to manipulate the LLM's training data or embed hidden triggers to influence its behavior. These attacks can take the form of data poisoning, where malicious data is fed to the model during training, or backdoor attacks, where hidden instructions are introduced to manipulate future outputs.
+
+These attacks can have severe consequences, highlighting the need for robust defenses. The survey explores various defense mechanisms for each attack category.
+
+* **Prompt Hacking** defenses include data preprocessing to clean input prompts, paraphrasing techniques to rephrase queries, and advanced filtering algorithms to detect malicious code.
+* **Adversarial Attacks** can be mitigated through fine-tuning the LLM to be less susceptible to attacks, purifying training data to remove hidden triggers, and using anomaly detection methods to identify unusual behavior.
+
+The dynamic nature of these attacks demands continuous research and development to stay ahead of evolving threats. By understanding and mitigating these vulnerabilities, researchers can build a comprehensive security framework for LLMs, fostering trust and wider adoption of secure and resilient AI systems.
