@@ -1,5 +1,3 @@
-Given the provided responses, the ranking and feedback based on the criteria of relevance, clarity, coherence, conciseness, and insightfulness are as follows:
-
 ### Ranking
 
 1. **Gemini**
