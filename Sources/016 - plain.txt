@@ -1,0 +1,74 @@
+Abstract. The advent of wearable computers enables a new source of
+context for AI that is embedded in egocentric sensor data. This new ego-
+centric data comes equipped with fine-grained 3D location information
+and thus presents the opportunity for a novel class of spatial founda-
+tion models that are rooted in 3D space. To measure progress on what
+we term Egocentric Foundation Models (EFMs) we establish EFM3D,
+a benchmark with two core 3D egocentric perception tasks. EFM3D
+is the first benchmark for 3D object detection and surface regression
+on high quality annotated egocentric data of Project Aria. We propose
+Egocentric Voxel Lifting (EVL), a baseline for 3D EFMs. EVL leverages
+all available egocentric modalities and inherits foundational capabilities
+from 2D foundation models. This model, trained on a large simulated
+dataset, outperforms existing methods on the EFM3D benchmark.
+1 Introduction
+Foundation models trained on Internet-scale text, image and video datasets
+have demonstrated the potential in using large-scale self-supervised learning ap-
+proaches to build backbones that are useful for numerous downstream tasks,
+⋆ Project lead.
+⋆⋆ Equal contribution in alphabetic order.
+arXiv:2406.10224v1 [cs.CV] 14 Jun 2024
+2 J. Straub et al .
+through both fine-tuning and zero-shot learning. The advent of wearable spa-
+tial computers enables a new source of context from egocentric sensor data.
+Key to unlocking this context is understanding the environment of the wearer.
+This new egocentric data source comes equipped with fine-grained 3D location
+information [13, 19] and thus presents the opportunity for a novel class of spa-
+tial foundation models that are rooted in 3D space. This class of 3D egocentric
+foundation models (EFMs) can leverage strong priors from egocentric data like
+camera poses, calibration and semi-dense point information. As with 2D im-
+age foundation models [1, 22, 28, 42], the availability of large amounts of data
+is critical for training such models and high quality annotations to measuring
+their performance. While there are now significant amounts of 2D data with
+2D annotations [12, 20, 34], and a large body of 3D scene dataset [3, 9, 50, 58],
+and autonomous vehicles (AV) datasets [6,16], the equivalent for egocentric data
+from wearable devices with 3D annotations is only just starting to become avail-
+able [13, 19, 53].
+To enable measuring progress towards EFMs we propose the EFM3D bench-
+mark which contains two tasks: 3D bounding box detection and surface regres-
+sion. To set up the first baseline model on EFM3D, we introduce the Egocentric
+Voxel Lifting (EVL) model which relies on frozen 2D foundation features to set
+a competitive performance. EVL leverages all egocentric modalities from Aria
+including posed and calibrated RGB and greyscale video streams and semidense
+points. When trained on our new large-scale simulated dataset EVL general-
+izes well to the real-world EFM3D benchmark and significantly outperforms
+the current state-of-the-art 3D scene understanding models even when they are
+retrained on the same dataset. To summarize our contributions:
+Dataset. We release more annotations including 3D object bounding boxes
+(OBBs) and groundtruth (GT) meshes built on top of Aria Synthetic Environ-
+ments dataset [53] and real Project Aria sequences to enable research on the two
+foundational tasks of 3D object detection and surface reconstruction.
+Benchmark. We set up the EFM3D benchmark with the first two tasks, namely
+3D object detection and surface reconstruction, to advance continuous research
+in the areas of egocentric machine perception.
+Method. We introduce a baseline model, EVL, to solve both tasks at the state-
+of-the-art level by leveraging explicit volumetric representation, a full suite of
+egocentric signals, and 2D features from vision foundation models.
+7 Conclusion
+In this manuscript, we introduce the concept of 3D Egocentric Foundation Mod-
+els that integrate egocentric sensor data for 3D scene understanding. We identify
+two core tasks for 3D EFMs—3D object detection and surface regression—and
+create a benchmarks for each task using high quality annotations of datasets
+captured with Project Aria glasses [13]. When evaluating these tasks over an en-
+tire sequence of egocentric data (as opposed to a single frame), existing methods
+exhibit poor 3D consistency in their predictions that leads to poor performance
+on the EFM3D benchmark. To address this, we design a simple but effective 3D
+backbone for egocentric data, EVL, that leverages semi-dense points and im-
+age features to produce a 3D voxel grid of features. EVL outperforms all other
+methods when evaluated on the proposed EFM3D benchmark. The simplicity of
+this architecture underscores the effectiveness of the 3D inductive biases in EVL.
+We encourage the development of more sophisticated models that can exploit
+the richness of egocentric 3D data even more effectively, including the incor-
+poration of dynamic scene understanding and user interaction modeling. Such
+modeling advancements could improve the performance even further and extend
+the applicability of 3D EFMs to a wider range of real-world scenarios.

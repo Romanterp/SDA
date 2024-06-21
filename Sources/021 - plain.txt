@@ -1,0 +1,76 @@
+Abstract
+Evaluation benchmarks are the cornerstone of measuring capabilities of large
+language models (LLMs), as well as driving progress in said capabilities. Originally
+designed to make claims about capabilities (or lack thereof) in fully pretrained
+models, evaluation benchmarks are now also extensively used to decide between
+various training choices. Despite this widespread usage, we rarely quantify the
+variance in our evaluation benchmarks, which dictates whether differences in
+performance are meaningful. Here, we define and measure a range of metrics
+geared towards measuring variance in evaluation benchmarks, including seed
+variance across initialisations, and monotonicity during training. By studying a
+large number of models – both openly available and pretrained from scratch – we
+provide empirical estimates for a variety of variance metrics, with considerations
+and recommendations for practitioners. We also evaluate the utility and tradeoffs
+of continuous versus discrete performance measures and explore options for better
+understanding and reducing this variance. We find that simple changes, such as
+framing choice tasks (like MMLU) as completion tasks, can often reduce variance
+for smaller scale (∼7B) models, while more involved methods inspired from
+human testing literature (such as item analysis and item response theory) struggle
+to meaningfully reduce variance. Overall, our work provides insights into variance
+in evaluation benchmarks, suggests LM-specific techniques to reduce variance,
+and more generally encourages practitioners to carefully factor in variance when
+comparing models.
+1 Introduction
+Benchmark evaluation datasets are the cornerstone of establishing and defining progress with large
+language models (LLMs). Virtually any new model release is accompanied by a range of scores
+on common evaluation benchmarks, illustrating how the model tallies up against previous releases
+(Mesnard et al., 2024; AI@Meta, 2024; Achiam et al., 2023; Reid et al., 2024). As such, evaluation
+datasets play an important role in claiming progress and the title of state-of-the-art. Consequently,
+choices in model development are often based on how they impact performance on benchmarks
+considered important by the field, giving benchmarks a prominent role in model iteration as well. Yet,
+despite their importance, benchmark scores are often regarded as a one-dimensional number, and it is
+rare that they are given a more detailed consideration. While it is well known that benchmarks scores
+can be heavily influenced by the choice of prompt (Sclar et al., 2023), the distributions of labels in
+the provided few-shots (Weber et al., 2023) or even the symbols that are used for the different options
+in a multiple choice setup (Zheng et al., 2023; Alzahrani et al., 2024), papers rarely report more
+than a single number per benchmark, or specifics on how each number was computed. Furthermore,
+statistical significance values are scarcely reported on major release papers or leaderboards, or even
+in papers that study how scores vary across various dimensions. These issues muddy the power of
+evaluation datasets, both during development and evaluation: if we cannot ‘trust’ our evaluation
+results or do not understand what improvements are statistically significant, we cannot make sound
+comparisons, thus making it more challenging to reliably use benchmarks during model development.
+To address this, we present a deep dive into variance in benchmark scores, at much larger scale than
+any previous work. Across all our experiments, we consider 13 different popular benchmarks and
+compute their performance over 280 different models, including fully trained public models as well
+as a set of 7B models and their intermediate checkpoints that we trained from scratch, differing only
+in their initialisation random seed.
+With this, our contributions are three-fold:
+• We provide a comprehensive reference guide for what magnitudes of variance are expected
+for what benchmarks across various circumstances.
+• We make suggestions of how variance can be reduced for smaller scale models on choice
+tasks of important value (MMLU).
+• We caution against the use of methods from human standardised testing (item analysis, item
+response theory) as a means of reducing variance, finding them to be ineffective.
+Our work brings to light the often overlooked problem of variance in evaluation benchmarks, quanti-
+fies its effects, and provides a set of positive and negative results on how to mitigate it.
+7 Conclusion
+As language models become more and more prevalent, it has become increasingly important to get
+a sense of their capabilities. One of the primary ways to assess these capabilities is through the
+use of evaluation benchmarks, where a model is scored on a series of examples. These scores are
+often directly compared, without consideration of the variance. This obscures the interpretation of
+evaluation results, in assessing final models as well as making decisions during model development.
+In this work, we aimed to quantify evaluation benchmark variance across a range of settings (from
+pretraining intermediate checkpoints, to the largest frontier LLMs) using a diverse set of metrics
+(seed variance, confidence intervals, and monotonicity). Beyond quantifying variance, we also
+experimented with various techniques used in human standardised testing (item analysis; University
+of Washington (2024), item response theory; Cai et al. (2016)), but generally found these methods to
+be ineffective on the models and benchmarks we considered, in terms of reducing variance. Future
+work could explore such avenues further, and it is possible that as models reach closer and closer
+to human-level performance these methods will provide more useful insights. On the other hand,
+in line with recent work advocating for a teleological approach to measuring capabilities (McCoy
+et al., 2023), we demonstrated LLM-specific techniques (e.g. the use of continuous metrics or cloze-
+formatted tasks) can improve the signal-to-noise ratio in our evals. Such techniques are not available
+when assessing humans, but provide a unique opporutnity for LLM evaluations, especially when
+performing pretraining ablations. We hope our work spurs future work in this direction of reducing
+variance, in addition to serving as an empirical guide for model practitioners to use when comparing
+models and assessing performance.

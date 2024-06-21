@@ -1,0 +1,118 @@
+Abstract— Artificial agents, particularly humanoid robots,
+interact with their environment, objects, and people using
+cameras, actuators, and physical presence. Their communica-
+tion methods are often pre-programmed, limiting their actions
+and interactions. Our research explores acquiring non-verbal
+communication skills through learning from demonstrations,
+with potential applications in sign language comprehension and
+expression. In particular, we focus on imitation learning for
+artificial agents, exemplified by teaching a simulated humanoid
+American Sign Language. We use computer vision and deep
+learning to extract information from videos, and reinforcement
+learning to enable the agent to replicate observed actions.
+Compared to other methods, our approach eliminates the
+need for additional hardware to acquire information. We
+demonstrate how the combination of these different techniques
+offers a viable way to learn sign language. Our methodology
+successfully teaches 5 different signs involving the upper body
+(i.e., arms and hands). This research paves the way for advanced
+communication skills in artificial agents.
+I. INTRODUCTION
+The development of artificial agents like humanoid robots
+has opened up a wide range of possibilities in various
+scenarios, spanning from industrial to domestic settings.
+Consequently, communication is crucial for human-robot
+interaction, whether verbal [1] [2] or non-verbal [3] [1] [4]
+[2]. Verbal communication is the default mode for most
+users, but it is not always suitable or accessible for everyone.
+Deaf individuals, for instance, rely heavily on non-verbal
+communication methods such as sign language. This neces-
+sitates the development of robotic sign language [5] [6] [7]
+[8] [9], where robots are designed to understand and speak
+sign languages. This field aims to bridge the communication
+gap between the deaf community and the broader population,
+allowing seamless interaction and engagement.
+According to the World Federation of Deaf “there are
+more than 70 million deaf people worldwide” [10], while
+according to WHO “by 2050 nearly 2.5 billion people are
+projected to have some degree of hearing loss and at least 700
+million will require hearing rehabilitation” [11], it is clear
+that also machines need to learn how to convey messages
+using a medium different from sound. The societal benefits of
+having robots that can speak sign language are extensive and
+hold immense potential across various fields. For example, in
+the field of education, these robots could assist in classrooms
+*Corresponding author federico.tavella@manchester.ac.uk
+1Manchester Centre for Robotics and AI, University of Manchester,
+Manchester, M13 9PL, UK
+2Department of Computer Science, University of Manchester, Manch-
+ester, M13 9PL, UK
+by providing real-time sign language interpretation, enabling
+deaf students to fully participate and engage in lessons.
+Recently, researchers started approaching the problem of
+robotics sign language, focusing on imitation [12] [7] or
+translation [8]. However, neither of these approaches enables
+the robot to build an embodied representation of different
+signs based on visual data, as they focus on retargeting rather
+than learning. Moreover, they tend to use using additional
+hardware instead of being vision based. [5] showed how a
+combination of computer vision and reinforcement learning
+can be used to learn fingerspelling, but their work does not
+attempt to address signs involving the full body.
+In conclusion, our work is motivated by a gap in the
+current state-of-the-art in the field of robotics sign language.
+In particular, there is no research which approaches the
+problem of whole body sign language acquisition in artificial
+agents based on visual data imitation. To summarise, the
+contributions of our research (illustrated in Figure 1) are
+manifold: 1) Sign Language Acquisition: we address the
+challenging problem of sign language acquisition from RGB
+video for words, focusing on enabling a machine to imitate
+sign language gestures which involve both hands and arms;
+2) URDF Model Development: we create a URDF model
+of a simulated character, which is noteworthy as it is the
+first known model capable of imitating the whole body
+and both hands in sign language gestures; 3) Experimental
+Validation: Extensive experiments are conducted to optimise
+parameters for rewards and hyperparameters for training
+models; 4) Successful Imitation of Signs: In the end,
+we achieve a significant milestone by identifying a specific
+reward structure and set of hyperparameters that enables our
+approach to successfully learn how to imitate 5 different
+sign language words, indicating the practical viability of our
+method.
+VI. DISCUSSION
+Our paper introduces a novel approach to address the prob-
+lem of sign language acquisition from demonstration. We
+have successfully developed a URDF model of a humanoid
+with two hands, each equipped with dexterous fingers. Our
+model stands as a novel solution enabling the simultaneous
+imitation of body and hand movements. Leveraging off-the-
+shelf pre-trained pose estimation models, such as FrankMo-
+cap [33], we eliminate the need for additional hardware
+to capture spatio-temporal information. Furthermore, we
+elucidate the methodology for modelling rewards, facilitat-
+ing imitation via a well-established reinforcement learning
+algorithm, such as PPO. Our extensive experimentation on
+reward parameters and model hyperparameters illustrates the
+iterative process required when using reinforcement learning.
+We identified an optimal set of parameters that enables our
+approach to effectively imitate five different sign language
+signs. Consequently, we can assert that our proposal offers
+a viable avenue for acquiring sign language.
+Looking ahead, our work opens up to several compelling
+future directions. Firstly, enhancing our approach involves
+increasing the DoFs for each hand joint from 1 to 2, ad-
+dressing a limitation identified in the model provided by [5].
+This enhancement would broaden the range of sign language
+signs that our system can effectively imitate. Another avenue
+for improvement lies in devising mechanisms for leveraging
+previous experiences to expedite the learning process for new
+signs. Finally, the ultimate frontier in deploying our research
+lies in the transition from a simulated environment to a
+real-world setting. This would entail the integration of our
+policies into a physical robot capable of performing signs,
+with the added challenge of human recognition of the signs
+executed by the robot. This would be a significant milestone
+in making sign language more accessible to individuals who
+rely on it as their primary mode of communication.

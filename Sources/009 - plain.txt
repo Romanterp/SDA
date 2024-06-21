@@ -1,0 +1,136 @@
+Abstract—This paper presents a novel anomaly detection
+methodology termed Statistical Aggregated Anomaly Detection
+(SAAD). The SAAD approach integrates advanced statistical
+techniques with machine learning, and its efficacy is demon-
+strated through validation on real sensor data from a Hardware-
+in-the-Loop (HIL) environment within the automotive domain.
+The key innovation of SAAD lies in its ability to significantly
+enhance the accuracy and robustness of anomaly detection when
+combined with Fully Connected Networks (FCNs) augmented by
+dropout layers. Comprehensive experimental evaluations indicate
+that the standalone statistical method achieves an accuracy
+of 72.1%, whereas the deep learning model alone attains an
+accuracy of 71.5%. In contrast, the aggregated method achieves
+a superior accuracy of 88.3% and an F1 score of 0.921, thereby
+outperforming the individual models. These results underscore
+the effectiveness of SAAD, demonstrating its potential for broad
+application in various domains, including automotive systems.
+Index Terms—anomaly detection, HIL, machine learning, au-
+tomotive systems, fully connected networks, statistical methods
+I. INTRODUCTION
+Anomaly detection is a critical task in various fields, partic-
+ularly in the automotive industry, where it plays a significant
+role in ensuring the reliability and safety of systems. With
+the advent of advanced machine learning (ML) techniques,
+anomaly detection has seen substantial improvements in ac-
+curacy and efficiency. Machine learning models, especially
+deep learning architectures, have shown promising results in
+identifying abnormal patterns that could indicate potential
+faults or cyber-attacks in automotive systems [1], [2].
+In the context of automotive systems, anomaly detection
+is crucial for maintaining the operational integrity of both
+traditional and autonomous vehicles. Autonomous vehicles, in
+particular, rely heavily on a multitude of sensors to navigate
+and operate safely. These sensors provide continuous streams
+of data that need to be monitored in real-time for any signs
+of anomalies that could compromise the vehicle’s safety and
+functionality [3], [4]. Machine learning models have been
+employed to analyze these data streams, allowing for the
+early detection of issues and the implementation of corrective
+actions before any adverse events occur [5].
+To validate and verify the performance of control sys-
+tems under real-time conditions, Hardware-in-the-Loop (HIL)
+testing is an essential technique used in the industry. HIL
+testing involves integrating actual hardware components with
+simulated environments, providing a highly controlled and re-
+peatable setting to assess the behavior of automotive systems.
+This method is particularly beneficial for anomaly detection,
+as it allows for the collection of high-fidelity data that can
+be used to train and test machine learning models under
+various scenarios [6]. Additionally, HIL testing helps mitigate
+the common issue of imbalanced data in anomaly detection
+datasets by enabling the generation of synthetic data to balance
+the dataset.
+Evaluating anomaly detection algorithms often requires
+specific metrics tailored for time series data, as classical
+precision and recall metrics may not capture the nuanced
+performance characteristics required for detecting anomalies
+in continuous data streams [7]. Advanced evaluation metrics
+consider the duration and timing of anomalies, providing a
+more robust assessment of an algorithm’s performance in real-
+world conditions.
+Recent studies have explored various machine learning
+approaches for anomaly detection in different domains. For
+instance, [8] utilized explainable random forests to detect
+anomalies in oil wells, achieving high accuracy and demon-
+strating the effectiveness of explainable AI in critical applica-
+tions. Another study [9] proposed a clustered deep one-class
+classification model for detecting anomalies in cyber-physical
+systems, showing significant performance improvements over
+traditional models. A survey on anomaly detection in IoT
+time-series data highlighted the unique challenges and pro-
+posed solutions for implementing these techniques in rapidly
+expanding fields like the Internet of Things [10]. Additionally,
+a comprehensive review on outlier detection in time series data
+provided a structured overview of unsupervised techniques and
+their applications [11]. The integration of ML in the industry has also yielded
+impressive results in structural health monitoring [12], [13].
+Building on these advancements, recent studies have expanded
+the field towards hybrid-assisted models that leverage logical
+rules. These neuro-symbolic approaches combine deep learn-
+ing with knowledge-based systems to enhance performance.
+Research has shown that these hybrid models, which incor-
+porate domain-specific knowledge, significantly outperform
+standard deep learning models by providing more accurate
+and explainable results [14], [15]. Additionally, innovative
+methods such as GraphLIME have demonstrated significant
+improvements in model interpretability and performance in
+predictive tasks, further showcasing the potential of combining
+explainable AI techniques with deep learning [16]. The inter-
+pretability aspect is highly valuable, as seen in [17], where
+the insights were used to understand and solve the feature
+distribution issue that occurred with the generated pseudo-
+features. A comprehensive comparison in [18] highlights both
+the advantages of hybrid models and the challenges of creating
+and scaling them. These hybrid approaches, which synergize
+complementary components, form the cornerstone of the con-
+ceptual framework presented in this paper.
+In this paper, we introduce Statistical Aggregated Anomaly
+Detection (SAAD), a novel anomaly detection method de-
+signed to effectively integrate statistical techniques for out-
+lier detection with the performance of supervised machine
+learning models. Our approach specifically aims to enhance
+the accuracy and robustness of Fully Connected Networks
+(FCNs) in anomaly detection tasks. Utilizing real-world data
+collected from Hardware-in-the-Loop (HIL) environments, we
+demonstrate the effectiveness of SAAD in identifying anoma-
+lies with high precision and recall. Additionally, we illustrate
+how our statistical method can augment the performance of
+FCNs, rendering them more reliable for real-time applications
+in automotive systems
+VI. CONCLUSION
+In this paper, we introduced SAAD, a novel statistical
+anomaly detection method with promising results for automo-
+tive systems, validated through extensive testing using real-
+world data collected from a Hardware-in-the-Loop (HIL) en-
+vironment. Our main contribution is merging a novel statistical
+method with deep learning, taking the best of both approaches
+and achieving higher accuracy with the joint operation than
+with standalone models.
+The results of our experiments demonstrate the efficacy
+of our proposed method. The standalone statistical method
+achieved an accuracy of 72.1% on the testing data, while the
+deep learning model alone provided an accuracy of 71.5%.
+When combined, the aggregated results yielded an accuracy
+of up to 88.3% and an F1 score of 0.921.
+The integration of statistical techniques with machine learn-
+ing models highlights the potential for enhancing existing
+anomaly detection frameworks, making them more reliable
+and effective in real-world applications.
+Future work will focus on further refining the statistical
+method, exploring adaptive threshold techniques for multi-
+variate time series data, and expanding the application scope
+to other critical automotive systems. This will help improve
+the robustness and scalability of our approach, ensuring its
+effectiveness across diverse and complex scenarios, while also
+extending its applicability beyond automotive systems.

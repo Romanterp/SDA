@@ -1,0 +1,150 @@
+Abstract
+We develop new conformal inference methods for obtaining validity guarantees on
+the output of large language models (LLMs). Prior work in conformal language
+modeling identifies a subset of the text that satisfies a high-probability guarantee
+of correctness. These methods work by filtering claims from the LLM’s original
+response if a scoring function evaluated on the claim fails to exceed a threshold
+calibrated via split conformal prediction. Existing methods in this area suffer
+from two deficiencies. First, the guarantee stated is not conditionally valid. The
+trustworthiness of the filtering step may vary based on the topic of the response.
+Second, because the scoring function is imperfect, the filtering step can remove
+many valuable and accurate claims. We address both of these challenges via two
+new conformal methods. First, we generalize the conditional conformal procedure
+of Gibbs et al. (2023) in order to adaptively issue weaker guarantees when they are
+required to preserve the utility of the output. Second, we show how to systematically
+improve the quality of the scoring function via a novel algorithm for differentiating
+through the conditional conformal procedure. We demonstrate the efficacy of our
+approach on both synthetic and real-world datasets.
+1 Introduction
+Large language models (LLMs) are a breakthrough in machine learning. In addition to their ex-
+traordinary performance on natural language processing benchmarks, LLMs such as ChatGPT and
+Gemini are now used by hundreds of millions of users around the world [22]. But even though these
+models match or even surpass human performance on an increasingly complex and diverse set of
+tasks, their reliability remains in doubt. For example, LLMs often confidently hallucinate facts that
+do not exist, and can generate toxic outputs that may offend or discriminate [ 20 ]. This “misalignment”
+between user goals and model behavior hinders LLM deployment in settings where the potential for
+AI assistance appears highest, e.g., legal work or customer service interaction [29].
+Since an LLM output is not always trustworthy, a growing body of work aims to quantify uncertainty
+regarding a given output’s validity. While there are many approaches to this problem [26 , 4, 9,
+16], this paper considers a particularly popular method for black-box uncertainty quantification:
+conformal inference [28 , 2, 3]. Conformal inference provides a generic procedure for transforming
+the predictions of any modeling procedure into valid prediction sets that are guaranteed to contain
+the true outcome with high probability. Several recent papers have applied conformal inference
+to define a set of LLM responses that contains at least one factual response with high probability
+[3, 15 , 23 , 30 ]. But while generating a candidate set of outputs may be a reasonable strategy in some
+question-answering problems, it is not a generalizable approach for the diverse and unstructured tasks
+faced in real-world deployment.
+More recently, Mohri and Hashimoto [19] propose to forgo sets of LLM outputs and instead utilize
+conformal inference to filter out invalid components of the LLM response. At a high level, given
+an LLM generation parsed into a set of distinct sub-claims, their method censors all sub-claims for
+which a pre-defined scoring function lies below some threshold. Mohri and Hashimoto [19] then
+show how to calibrate this threshold such that the retained claims are factual with high probability.
+While these methods represent a promising step towards usable guarantees for LLM outputs, they
+are not yet practical. One limitation is that the guarantee attained by previous methods only holds
+marginally over a random test prompt. The true probability of output correctness may then vary
+substantially based on the prompt’s characteristics. For example, we show in Section 4 that the
+probability of output correctness (even after applying the conformal factuality method) is substantially
+lower for responses whose subjects are likely to be underrepresented in the model’s training corpus.
+Second, existing methods remove too many claims to be practically useful. Recall that we remove
+sub-claims for which some pre-defined score falls below a calibrated threshold. If this score is perfect,
+only false claims will be censored. In practice, however, these scores are only weakly correlated with
+the ground truth. As Figure 1 demonstrates, a high probability factuality guarantee can require the
+removal of a significant proportion of the generated text.1 The conformal guarantee is not useful if
+the filtered response has limited value for the end-user.
+1.1 Summary of contributions
+In this subsection, we will preview and summarize our results. A more complete description of our
+theory and experimental setup is deferred to Sections 3 and 4.
+As in prior literature on conformal language modeling, we will assume the existence of an annotated
+calibration set of n i.i.d. prompt-response-claim-annotation tuples, {(Pi, Ri, Ci, Wi)}n
+i=1. The
+vector Ci is obtained by using an LLM to parse the response into a list of scorable sub-claims, while
+Wi might correspond to human verification of the underlying factuality of each claim. To simplify
+notation, we will refer to these tuples using the shorthand, Di.
+At first glance, the twin goals we have outlined for this paper, improved conditional validity and
+enhanced quality of filtered outputs, appear to be irreconcilable. Indeed, prior work establishes that
+precise conditional guarantees in black-box uncertainty quantification require larger prediction set
+sizes, i.e., smaller filtered outputs [5, 27 ]. We contribute two methods to mitigate this trade-off, thus
+enabling the practical application of conformal prediction to LLMs.
+Our first method, which we call conditional boosting, allows for the automated discovery of superior
+claim scoring functions via differentiation through the conditional conformal algorithm of Gibbs et al.
+[10] . Automated conformal score improvement was introduced by Stutz et al. [25] ; their paper shows
+how to minimize conformal prediction set size in a classification setting by differentiating through the
+split conformal algorithm. As we show, however, in Section 4, optimizing the score function subject
+only to a marginal coverage constraint can lead to poor conditional properties.
+Differentiating through the conditional conformal algorithm presents new challenges that are, to
+the best of our knowledge, unaddressed by prior work. Our key technical contributions are a proof
+that the cutoff output by the conditional conformal method remains locally linear with respect to
+the conformity score under mild assumptions as well as a computationally efficient estimator of this
+derivative. By running gradient descent with this derivative, we discover new scores that enable
+greater claim retention.
+The right panel of Figure 2 demonstrates the efficacy of our method. Here, we use boosting to learn
+an optimal linear combination of four candidate scoring functions. We compare the learned, boosted
+scores (orange) against a baseline method (blue) that uses the “frequency” scoring method developed
+by Mohri and Hashimoto [19] . As the figure shows, the boosted score allows for higher claim
+retention across all datasets (mean claim retention of 39% vs. 24% for the boosted vs. unboosted
+scores).
+Our second method, which we call level-adaptive conformal prediction, allows the validity of
+the conformal output to depend on characteristics of the queried prompt. In our LLM experiments,
+we adapt the level, i.e., the claimed probability of correctness, to each prompt in order to ensure
+that issued outputs retain at least 70% of the original set of sub-claims. For example, in Figure 1,
+we prompt GPT-3.5-Turbo to output a response to a question from the MedicationQA dataset
+[ 6]. Outputting a filtered response that achieves the stated factuality criterion with probability 90%
+requires near-complete censorship, but by relaxing the level to 63% using our method, we can
+preserve almost the entire response.
+Given that we are now issuing an output-adaptive probability of correctness, it is crucial that our
+issued probability is calibrated. Calibration requires that the true probability of correctness matches
+the issued one. For example, if a weather forecaster claims that there is a 70% chance of rain, their
+forecast is calibrated if it actually rains for 70% of the days on which a 70% forecast is issued.
+Figure 2 displays the advantages of our approach to this problem. First, the left panel of Figure 2
+verifies that the level-adaptive probabilities we report are empirically well-calibrated. Second, the
+right panel of Figure 2 quantitatively demonstrates the improved claim retention of our method. For
+each dataset included in the MedLFQA benchmark [ 13], we show that level-adaptive conformal
+prediction retains at least 70% of the original output’s claims in most examples. By combining our
+two methods, we retain most claims and output non-trivial guarantees of response factuality; the left
+panel shows that the issued probabilities vary between 50 and 85%. By contrast, while the fixed level
+method guarantees a 90% probability of correctness, the method retains very little of the original
+LLM output.
+To emphasize that these results are accompanied by formal guarantees, we preview one instantiation
+of our theory here. Since it is well-known that exact conditional guarantees in conformal inference are
+impossible to achieve without strong distributional assumptions [ 5, 27 ], we present an interpretable
+alternative: group-conditional calibration.2 For example, in this dataset, we might group questions by
+medical area or data provenance; we would then hope to show that across health conditions or data
+sources, the claimed probability of factuality matches the true probability of factuality.
+Equation (1), which follows from Theorem 3.2, presents one guarantee that our method can satisfy.
+Here, we denote the (random) output of our data-adaptive level function by αn+1 and our filtered
+set of claims by ˆF (Cn+1). Our method then satisfies the following guarantee simultaneously over
+groups G ∈ G (e.g., prompt topic, data provenance) and some discretization of [0, 1] given by the
+sub-intervals I (e.g., all sub-intervals with endpoints belonging to {0, 0.1, . . . , 1}),
+P
+ ˆF (Cn+1) is factual | αn+1 ∈ I, Pn+1 ∈ G
+
+= E[αn+1 | αn+1 ∈ I, Pn+1 ∈ G]. (1)
+More concretely, (1) establishes that the issued probabilities are well-calibrated in the following
+sense: among similar prompts, the outputs that we claim to be factually correct with probability,
+say, between 70 and 80% will be actually factual between 70 and 80% of the time. This guarantee
+holds in expectation over the dataset used to run our procedure. In this paper, we also allow for many
+notions of “factuality,” e.g., in Figure 1, we guarantee that filtered outputs have no unsubstantiated
+claims, but in other examples, we relax our guarantee so that no more than k false claims are issued.
+The remainder of the paper is outlined as follows. In Section 2, we introduce the formal notation
+of our paper and contextualize our approach by reviewing related work in conformal inference.
+Section 3 then presents our new methodology for conformal language modeling. We first generalize
+the conditional conformal procedure of Gibbs et al. [10] to obtain high-probability control of arbitrary
+monotone risks. We then state and give intuition for the key technical results underpinning our level-
+adaptive and boosting methods. Section 4 outlines synthetic experiments displaying the improvements
+of our approach over existing methods, gives a more detailed description of the experiment presented
+in Figure 2 above, and presents another experiment that filters short biographies output by an LLM.
+We release a filtered version of the MedLFQA benchmark that removes some non-health-related
+prompts, the generated and parsed text used to run our experiments, as well as the notebooks used to
+produce the figures in this paper at github.com/jjcherian/conformal-safety. We also update our Python
+package for conditional conformal inference to support level-adaptive conformal prediction. The new
+version of this package is available to download at github.com/jjcherian/conditional-conformal and
+can be installed from PyPI.
+
+Experimental results displaying the effectiveness of our level-adaptive and conditional boosting
+procedures on this dataset can be found in Figure 5. In Figure 6, we also provide additional
+comparisons contrasting the conditional conformal method of Section 3.1 with the marginal method
+proposed in Mohri and Hashimoto [19] . As anticipated by our theory, we find that our method
+provides accurate coverage regardless of the popularity of the Wikipedia page, while the split
+conformal method of Mohri and Hashimoto [19] gives variable results (left panel). As the right panel
+of the figure shows, this conditional accuracy is obtained by retaining more claims for frequently
+viewed topics and less claims for rare topics on which the LLM is more uncertain.

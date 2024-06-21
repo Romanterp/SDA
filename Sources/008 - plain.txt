@@ -1,0 +1,116 @@
+Abstract
+Today, intelligent systems that offer artificial intelligence capabilities often rely on machine learning. Machine learning describes
+the capacity of systems to learn from problem-specific training data to automate the process of analytical model building and
+solve associated tasks. Deep learning is a machine learning concept based on artificial neural networks. For many applications,
+deep learning models outperform shallow machine learning models and traditional data analysis approaches. In this article, we
+summarize the fundamentals of machine learning and deep learning to generate a broader understanding of the methodical
+underpinning of current intelligent systems. In particular, we provide a conceptual distinction between relevant terms and
+concepts, explain the process of automated analytical model building through machine learning and deep learning, and discuss
+the challenges that arise when implementing such intelligent systems in the field of electronic markets and networked business.
+These naturally go beyond technological aspects and highlight issues in human-machine interaction and artificial intelligence
+servitization.
+
+Introduction
+It is considered easier to explain to a child the nature of what
+constitutes a sports car as opposed to a normal car by showing
+him or her examples, rather than trying to formulate explicit
+rules that define a sports car.
+Similarly, instead of codifying knowledge into computers,
+machine learning (ML) seeks to automatically learn
+meaningful relationships and patterns from examples and ob-
+servations (Bishop 2006). Advances in ML have enabled the
+recent rise of intelligent systems with human-like cognitive
+capacity that penetrate our business and personal life and
+shape the networked interactions on electronic markets in ev-
+ery conceivable way, with companies augmenting decision-
+making for productivity, engagement, and employee retention
+(Shrestha et al. 2021), trainable assistant systems adapting to
+individual user preferences (Fischer et al. 2020), and trading
+agents shaking traditional finance trading markets (Jayanth
+Balaji et al. 2018).
+The capacity of such systems for advanced problem solv-
+ing, generally termed artificial intelligence (AI), is based on
+analytical models that generate predictions, rules, answers,
+recommendations, or similar outcomes. First attempts to build
+analytical models relied on explicitly programming known
+relationships, procedures, and decision logic into intelligent
+systems through handcrafted rules (e.g., expert systems for
+medical diagnoses) (Russell and Norvig 2021). Fueled by
+the practicability of new programming frameworks, data
+availability, and the broad access to necessary computing
+power, analytical models are nowadays increasingly built
+using what is generally referred to as ML (Brynjolfsson and
+McAfee 2017; Goodfellow et al. 2016). ML relieves the hu-
+man of the burden to explicate and formalize his or her
+knowledge into a machine-accessible form and allows to de-
+velop intelligent systems more efficiently.
+During the last decades, the field of ML has brought forth a
+variety of remarkable advancements in sophisticated learning
+algorithms and efficient pre-processing techniques. One of
+these advancements was the evolution of artificial neural net-
+works (ANNs) towards increasingly deep neural network ar-
+chitectures with improved learning capabilities summarized as
+deep learning (DL) (Goodfellow et al. 2016; LeCun et al.
+2015). For specific applications in closed environments, DL
+already shows superhuman performance by excelling human
+capabilities (Madani et al. 2018; Silver et al. 2018). However,
+such benefits also come at a price as there are several chal-
+lenges to overcome for successfully implementing analytical
+models in real business settings. These include the suitable
+choice from manifold implementation options, bias and drift
+in data, the mitigation of black-box properties, and the reuse of
+preconfigured models (as a service).
+Beyond its hyped appearance, scholars, as well as profes-
+sionals, require a solid understanding of the underlying con-
+cepts, processes as well as challenges for implementing such
+technology. Against this background, the goal of this article is
+to convey a fundamental understanding of ML and DL in the
+context of electronic markets. In this way, the community can
+benefit from these technological achievements – be it for the
+purpose of examining large and high-dimensional data assets
+collected in digital ecosystems or for the sake of designing
+novel intelligent systems for electronic markets. Following
+recent advances in the field, this article focuses on analytical
+model building and challenges of implementing intelligent
+systems based on ML and DL. As we examine the field from
+a technical perspective, we do not elaborate on the related
+issues of AI technology adoption, policy, and impact on orga-
+nizational culture (for further implications cf. e.g. Stone et al.
+2016).
+In the next section, we provide a conceptual distinction
+between relevant terms and concepts. Subsequently, we shed
+light on the process of automated analytical model building
+by highlighting the particularities of ML and DL. Then, we
+proceed to discuss several induced challenges when
+implementing intelligent systems within organizations or
+electronic markets. In doing so, we highlight environmental
+factors of implementation and application rather than view-
+ing the engineered system itself as the only unit of observa-
+tion. We summarize the article with a brief conclusion.
+
+Conclusion
+With this fundamentals article, we provide a broad introduc-
+tion to ML and DL. Often subsumed as AI technology, both
+fuel the analytical models underlying contemporary and future
+intelligent systems. We have conceptualized ML, shallow
+ML, and DL as well as their algorithms and architectures.
+Further, we have described the general process of automated
+analytical model building with its four aspects of data input,
+feature extraction, model building, and model assessment.
+Lastly, we contribute to the ongoing diffusion into electronics
+markets by discussing four fundamental challenges for intel-
+ligent systems based on ML and DL in real-world ecosystems.
+Here, in particular, AIaaS constitutes a new and unexplored
+electronic market and will heavily influence other established
+service platforms. They will, for example, augment the smart-
+ness of so-called smart services by providing new ways to learn
+from customer data and provide advice or instructions to them
+without being explicitly programmed to do so. We estimate that
+much of the upcoming research on electronic markets will be
+against the backdrop of AIaaS and their ecosystems and devise
+new applications, roles, and business models for intelligent sys-
+tems based on DL. Related future research will need to address
+and factor in the challenges we presented by providing struc-
+tured methodological guidance to build analytical models, as-
+sess data collections and model performance, and make predic-
+tions safe and accessible to the user.

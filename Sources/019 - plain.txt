@@ -1,0 +1,119 @@
+Abstract
+Motion forecasting is crucial in autonomous driving sys-
+tems to anticipate the future trajectories of surrounding
+agents such as pedestrians, vehicles, and traffic signals. In
+end-to-end forecasting, the model must jointly detect from
+sensor data (cameras or LiDARs) the position and past tra-
+jectories of the different elements of the scene and predict
+their future location. We depart from the current trend of
+tackling this task via end-to-end training from perception to
+forecasting and we use a modular approach instead. Fol-
+lowing a recent study [27], we individually build and train
+detection, tracking, and forecasting modules. We then only
+use consecutive finetuning steps to integrate the modules
+better and alleviate compounding errors. Our study re-
+veals that this simple yet effective approach significantly
+improves performance on the end-to-end forecasting bench-
+mark. Consequently, our solution ranks first in the Argo-
+verse 2 end-to-end Forecasting Challenge held at CVPR
+2024 Workshop on Autonomous Driving (WAD), with 63.82
+mAPf. We surpass forecasting results by +17.1 points over
+last year’s winner and by +13.3 points over this year’s
+runner-up. This remarkable performance in forecasting can
+be explained by our modular paradigm, which integrates
+finetuning strategies and significantly outperforms the end-
+to-end-trained counterparts.
+1. Introduction
+Autonomous and assisted driving requires accurate under-
+standing of the scene surrounding the vehicle. In particular,
+detecting [4, 9, 13, 16, 17], tracking [23, 26, 28] and fore-
+casting [1, 7, 15, 20, 21] the behavior of the agents in the
+*Core contributors.
+Correspondence to yihong.xu@valeo.com
+scene, agents which might be static or dynamic, is needed
+to plan the trajectory of the ego vehicle.
+In the recent years, these tasks have been tackled con-
+jointly in pipelines that perform detection, tracking, and
+forecasting, as part of the same integrated network trained
+end-to-end, with great success [18, 22]. We name such
+methods end-to-end-trained. Notably, ViP3D [8] intro-
+duced an end-to-end training pipeline from detection, track-
+ing and mapping to forecasting, and UniAD [10] enhanced
+the forecasting performance and extended the pipeline to
+planning.
+In spite of these achievements, a recent study [27] reveals
+that current state-of-the-art end-to-end-trained approaches
+[8, 10] are not without issues. Crucially, it shows that a
+simple baseline putting together independently trained de-
+tection, tracking and forecasting modules outperforms end-
+to-end training in the final forecasting task. However, be-
+cause the modules of this simple pipeline are trained in iso-
+lation using curated data, the errors of the early modules are
+not compensated downstream, which can lead to dramatic
+compounding errors at the end of the pipeline.
+Following the findings of [27], we focus on advancing
+the forecasting performance and build in this work a mod-
+ular approach (illustrated in Fig. 1). In particular, we use
+BEVFusion [13] for detection, AB3DMOT [23] for track-
+ing, and MTR [21] for forecasting, and work on integrating
+all three into an end-to-end forecasting pipeline. We start by
+pretraining the detection and forecasting modules individu-
+ally with data curated for their respective tasks, the tracker
+having no trainable parameters. To mitigate the compound-
+ing errors, we then finetune the forecasting module, using as
+input the outputs of the previous blocks. We observe in this
+challenge the importance of this adaptation step which dras-
+tically boost performance. Overall, this modular approach
+has the benefit to (1) require limited resources as each func-
+tional block is trained separately — which is not the case
+Figure 1. Overview of the modular approach of Valeo4Cast. Conventional motion forecasting benchmarks provide curated annotations
+of the past trajectories. Differently in this ‘end-to-end forecasting’ challenge, we opt for a modular approach where the past trajectories
+are predicted by the detection and tracking modules. The predicted results contain imperfections such as FPs, FNs, IDS and localization
+errors, which hinder forecasting. For this reason, training only on curated data is not sufficient (top). We thus propose a finetuning strategy
+where we match the predicted results and ground-truth annotations. We finetune the model on the matched pairs (middle) and it shows
+significant improvements once the model is deployed in real-world end-to-end forecasting (bottom). The ego car, vehicles, and pedestrians
+are expressed in different colors. The past trajectories are shown with dotted lines and the future ones with plain lines. ‘Pretrain’ refers to
+the pretraining on the UniTraj [6] framework, and ‘Train’ to the step where we keep training on the curated Argoverse2-Sensor dataset.
+for end-to-end training pipelines. It also (2) greatly im-
+proves the performances of the downstream blocks and (3)
+opens the possibility of updating/upgrading a block with-
+out retraining all the upstream components. The proposed
+pipeline is evaluated on the Argoverse Sensor forecasting
+benchmark [24] in the end-to-end forecasting paradigm.
+We summarize here the main findings of the study which
+are later discussed:
+• Pretraining it on a large dataset helps better initialize the
+model;
+• Finetuning the forecasting module on predicted detection
+and tracking inputs helps to take into account the errors of
+the previous detection and tracking blocks;
+• Post-processing is then needed to ensure a valid trajec-
+tory for static objects.
+This report is organized as follows. We summarize
+in Sec. 2.1 the used perception models that generate de-
+tection and tracking results. We detail in Sec. 2.2 the
+forecasting model and our pretraining, finetuning and post-
+processing strategies. In Sec. 3, we present our results and
+ablations on the Argoverse 2 Sensor forecasting benchmark.
+4. Conclusion
+The modular pipeline Valeo4Cast ranks first in the AV2 E2E
+Forecasting challenge 2024 and outperforms other solutions
+by +13 mAPf pts. This design allowed us to start from
+5
+a state-of-the-art motion forecasting model, that we inte-
+grate into an end-to-end pipeline by finetuning the forecast-
+ing module. We include a post-processing step to account
+for the absence of static objects in the conventional motion
+forecasting pretraining but which are important in the end-
+to-end benchmark. In this work, we confirm the findings
+of [27], verifying the superiority of modular approaches in
+the end-to-end forecasting task, and their capacity to handle
+detection and tracking imperfections.
+The efficient nature of the end-to-end approaches is still
+appealing. In future work, we are interested in investigat-
+ing how to better train the end-to-end approaches in order
+to achieve performances on-par with Valeo4Cast. Besides,
+future work may also consider more challenging settings in
+which the map information is not provided, at any stage,
+and has to be inferred in an online fashion, as the ego car
+drives and discovers its environment.

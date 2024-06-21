@@ -1,0 +1,212 @@
+Abstract—The reliance of popular programming languages
+such as Python and JavaScript on centralized package reposito-
+ries and open-source software, combined with the emergence of
+code-generating Large Language Models (LLMs), has created
+a new type of threat to the software supply chain: package
+hallucinations. These hallucinations, which arise from fact-
+conflicting errors when generating code using LLMs, repre-
+sent a novel form of package confusion attack that poses a
+critical threat to the integrity of the software supply chain.
+This paper conducts a rigorous and comprehensive evalua-
+tion of package hallucinations across different programming
+languages, settings, and parameters, exploring how different
+configurations of LLMs affect the likelihood of generating
+erroneous package recommendations and identifying the root
+causes of this phenomena. Using 16 different popular code
+generation models, across two programming languages and
+two unique prompt datasets, we collect 576,000 code samples
+which we analyze for package hallucinations. Our findings
+reveal that 19.7% of generated packages across all the tested
+LLMs are hallucinated, including a staggering 205,474 unique
+examples of hallucinated package names, further underscoring
+the severity and pervasiveness of this threat. We also imple-
+mented and evaluated mitigation strategies based on Retrieval
+Augmented Generation (RAG), self-detected feedback, and
+supervised fine-tuning. These techniques demonstrably reduced
+package hallucinations, with hallucination rates for one model
+dropping below 3%. While the mitigation efforts were effective
+in reducing hallucination rates, our study reveals that package
+hallucinations are a systemic and persistent phenomenon that
+pose a significant challenge for code generating LLMs.
+1. Introduction
+Modern generative AI models are large deep learning
+systems, pre-trained on extensive datasets, enabling them to
+learn the underlying distribution and produce novel outputs.
+Today, a variety of commercial and open-source generative
+models are available, capable of producing synthetic im-
+ages (e.g., Stable Diffusion [70], DALL-E [68], MidJourney
+[54]), videos (e.g., OpenAI Sora [63], Microsoft VASA-1
+[87]), audio (e.g., AudioGen [33]) and text/conversations
+(e.g., ChatGPT [5], BlenderBot [72]) through easy-to-use
+interfaces and textual commands. These powerful models
+have enabled a range of new applications such as creative
+content generation, personalized virtual assistants, sophisti-
+cated chatbots, and coding assistants.
+A particular class of generative models, known as Large
+Language Models (or LLMs), are foundational text genera-
+tion systems capable of understanding and creating natural
+language and other types of textual content, and can be
+trained to perform a wide range of specialized tasks such
+as answering questions, summarizing documents, translating
+languages, and completing sentences. Some popular exam-
+ples of such foundational LLMs include GPT-4 [1], Gemini
+[76], LlaMA [80], and Mistral [29]. One such emergent use
+of LLMs is the ability to generate computer code, accom-
+plished by training or fine-tuning on vast programming-
+related datasets including code repositories, technical fo-
+rums, coding platforms, documentation, and web data rel-
+evant to programming. Both commercial/black-box (e.g.,
+GPT-4 [1], Claude [3]) and open-source (e.g., CodeLlama
+[71], DeepSeek Coder [19]) varieties of such code genera-
+tion LLMs are readily available, and are being extensively
+used by both novice and expert programmers in their coding
+workflows to increase productivity. Studies indicate that up
+to 97% of developers are using generative AI to some degree
+and that approximately 30% of code written today is AI-
+generated, reflecting significant perceived gains in efficiency
+and convenience [73], [43].
+Despite their tremendous success in solving complex
+language-related tasks, LLMs have many shortcomings, with
+a phenomenon called hallucinations being a particularly
+serious issue. Hallucinations are outputs produced by LLMs
+that may appear to be plausible or truthful, but in reality
+are either factually incorrect, overestimate and distort the
+true facts, are nonsensical, or completely unrelated to the
+input task. Hallucinations present a critical challenge to the
+effective and safe deployment of LLMs in public facing
+applications due to their potential to generate inaccurate
+or misleading information. As a result, there has been
+increased attention in the research literature on the topics
+of detection and mitigation of hallucinations in LLMs [22],
+[28]. However, most of the existing research efforts have
+focused only on hallucinations in classical natural language
+generation and prediction tasks such as machine translation,
+summarization, and conversational AI [24], [53], [40], [10].
+The occurrence and impact of hallucinations during code
+generation, particularly regarding the type of hallucinated
+content and its implications for code security, remain rela-
+tively unexplored in the research literature. Hallucinations
+occurring during LLM-assisted code generation could result
+in code snippets that conflict with the user’s requirements,
+the contextual information provided at input time, or the
+code knowledge base itself. Such hallucinations and their
+effects, if not appropriately mitigated during generation or
+time-of-use, could seriously undermine the correctness, se-
+curity, and performance of the developed software. Recently,
+Liu et al. [46] has shown that popular LLMs (e.g., ChatGPT,
+CodeRL and CodeGen) significantly hallucinate during code
+generation and have established a comprehensive taxonomy
+of hallucinations in LLM-generated code.
+In this work, we are concerned with a very specific
+type of hallucination during code generation called pack-
+age hallucination. Package hallucination occurs when an
+LLM generates code that either recommends or contains
+a reference to a package/library which does not actually
+exist. Package hallucinations, especially if they are repeated,
+can have significant implications on the security of the
+generated code, with one severe and emergent threat being
+a package confusion attack. In a package confusion attack,
+an adversary takes advantage of package hallucinations in
+the LLM-generated code by actually publishing a package
+with the same name as the hallucinated or fictitious package
+and containing some malicious code/functionality. Then, as
+other unsuspecting and trusting LLM users are subsequently
+recommended the same fictitious package in their generated
+code, they end up downloading the adversary-created mali-
+cious package, resulting in a successful compromise. From
+that point on, any other software or code that utilizes or is
+dependent on this code containing the hallucinated package,
+is automatically also dependent on the adversary-created
+malicious package, thus becoming part of an entire codebase
+or software dependency chain.
+Package confusion attacks, through techniques such as
+typosquatting (i.e., creating packages with names similar to
+popular ones to deceive users) and name similarity, have
+been a longstanding issue in the open-source software com-
+munity. Package hallucinations by code-generating LLMs
+threaten to exacerbate the problem by exposing an additional
+threat surface for such attacks [58], [74], [34]. Trivial cross-
+referencing based hallucinated package detection techniques
+(i.e., comparing the package name with a list of known le-
+gitimate packages) are practically infeasible due to the large,
+dynamic, and open-source nature of popular package repos-
+itories. Additionally, an adversary may have already created
+a package corresponding to a hallucinated package making
+cross-referencing ineffective. Despite recent research [46]
+showing that LLMs are prone to package hallucinations, the
+extent to which this phenomenon occurs in current state-of-
+the-art (SOTA) publicly-available commercial (black-box)
+and open-source LLMs, the nature of these hallucinations,
+their impact on the security of the generated code, and the
+effectiveness of potential mitigation measures have not been
+comprehensively investigated.
+In this paper we conduct the first systematic study of the
+frequency and nature of package hallucinations across a va-
+riety of code generation LLMs operating under a diverse set
+of model settings and parameters. We rigorously analyze and
+quantify the impact of these hallucinations on the security
+of the generated code (vis-`a-vis package confusion attacks)
+and evaluate several mitigation strategies. We specifically
+make the following novel contributions:
+• Quantifying the incidence and origins of package
+hallucinations in code generating LLMs: We compre-
+hensively analyze the prevalence of package hallucina-
+tions in Python and JavaScript code generated by popular
+publicly-available commercial and open-source LLMs.
+We also examine the common behaviors in LLMs that
+lead to package hallucinations, including hallucination
+repetition, output verbosity, and the ability of models to
+detect their own hallucinations.
+• Analyze the effect of model settings and training data
+on package hallucinations: We further study how spe-
+cific model settings, such as training data recency, model
+temperature, and decoding strategies affect the occurrence
+and nature of package hallucinations.
+• Characterizing the generated hallucinated packages:
+We carefully study several key properties of the halluci-
+nated packages, such as their semantic similarity to popu-
+lar packages, the occurrence of package recommendations
+from other programming languages, package persistence,
+and the significance of packages that have been recently
+removed from source repositories.
+• Mitigation Strategies: We propose and comprehensively
+evaluate several techniques to effectively mitigate package
+hallucinations in LLM-generated code.
+
+7. Discussion and Conclusion
+One limitation of our study is the emergence of more
+advanced models since our evaluations. These newer models
+may offer improved performance and different hallucination
+characteristics, which were not captured in our study. The
+study also includes fewer commercial models due to funding
+constraints, meaning the findings may not fully represent
+the performance and hallucination tendencies of the latest
+commercial LLMs.
+In terms of future work, the precise underlying causes
+of package hallucinations is still an open question. This in-
+cludes exploring the architecture and components of LLMs
+that may contribute to these errors, examining the adequacy
+of tokenizers, and assessing how training data composition
+and preprocessing impact hallucination tendencies. Identi-
+fying and mitigating these underlying issues could lead to
+more robust and reliable code generation models. Future
+work could also focus on developing and testing more
+sophisticated mitigation strategies tailored specifically for
+code generation tasks. This could involve advanced tech-
+niques in prompt engineering, leveraging complex knowl-
+edge graphs, refining loss functions, and exploring new fine-
+tuning methods. Integrating real-time feedback mechanisms
+to dynamically adjust model output could further reduce hal-
+lucination rates. Understanding how package hallucinations
+are systemic and persistent at the token level remains crucial.
+In conclusion, we systematically studied package hallu-
+cinations in code generation LLMs, including both commer-
+cial and open-source models. Our comprehensive analysis
+revealed that 19.7% of generated packages are fictitious,
+posing a critical threat to software security through package
+confusion attacks. We identified key behavioral patterns
+and characterized hallucinated packages, proposing effective
+mitigation strategies. Our findings underscore the impor-
+tance of addressing package hallucinations to enhance the
+reliability and security of AI-assisted software development.
+

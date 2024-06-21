@@ -1,0 +1,123 @@
+Abstract
+We present STAT: a simple algorithm to prune transformer models without any
+fine-tuning. STAT eliminates both attention heads and neurons from the network,
+while preserving accuracy by calculating a correction to the weights of the next
+layer. Each layer block in the network is compressed using a series of principled
+matrix factorizations that preserve the network structure. Our entire algorithm
+takes minutes to compress BERT, and less than three hours to compress models
+with 7B parameters using a single GPU. Using only several hundred data examples,
+STAT preserves the output of the network and improves upon existing gradient-free
+pruning methods. It is even competitive with methods that include significant fine-
+tuning. We demonstrate our method on both encoder and decoder architectures,
+including BERT, DistilBERT, and Llama-2 using benchmarks such as GLUE,
+Squad, WikiText2.
+1 Introduction
+Transformer models have become ubiquitous across many fields, especially natural language pro-
+cessing. As such, the amount of resources devoted to training them from start to finish has increased
+rapidly. It has become common for highly resourced groups to train general-purpose models on
+massive datasets and then to release these models to the community open-source. This practice allows
+others to specialize these models for their particular use cases Devlin et al. [2018], Sanh et al. [2019a],
+Zhang et al. [2022]. However, the best-performing models are incredibly large, and often require
+compression (e.g., pruning and/or quantization) before they can be used by many practitioners.
+It is often easiest to realize real-world speedups (with the least engineering effort) when using
+structured pruning methods, especially when the “structure” means removing entire neurons, attention
+heads, layers, or compressing the embedding layer—these actions leave the network structure
+unchanged and just make its constituent pieces smaller. While quantization methods can typically
+greatly compress networks, realizing the theoretical gains in practice can be difficult when, e.g.,
+methods compress to non-standard floating point lengths that are not supported in hardware. Similarly,
+unstructured pruning methods can also achieve large compression ratios, but require either specialized
+hardware or data structures to realize performance gains.
+Several structured pruning methods have been studied for transformers, some which prune during
+training and some which train and then prune. However, many require either significant re-training
+after pruning, or a very large amount of resources to prune and compute corrections.
+We propose STAT, a new structured pruning method that eliminates heads and neurons from the
+attention blocks and fully connected blocks of the network—all without requiring any fine-tuning.
+To accomplish this task we build on the methodology from Chee et al. [2022] and use pivoted QR
+factorizations applied to the activation output for a small amount of (unlabeled) data at intermediary
+parts of the network to select heads and neurons to eliminate. We calculate corrections using the
+same data, on a single GPU. This enables us to minimize the error produced by pruning the network
+without resorting to expensive fine tuning. We can leverage randomized methods in numerical linear
+algebra (with a slight twist given our specific setting to enable additional parallelism) to scale the
+method up to modern models.
+We give a basic overview of interpolative decompositions, the backbone of our method, and their
+computation in Section 2. In Section 3, we show how to leverage interpolative decompositions
+to prune fully connected layers and attention heads. We provide experimental results for BERT,
+DistilBERT and Llama in Section 4, and perform a brief ablation analysis of our method in Section 5.
+1.1 Summary of Contributions
+1. We provide a method to compress transformer networks that slims the network by pruning
+attention heads and neurons while updating the subsequent layer to compensate—allowing
+us to preserve accuracy without fine tuning.
+2. We illustrate the effectiveness of our method using encoder-based networks such as BERT
+Devlin et al. [2018] and DistilBERT Sanh et al. [2019a], and significantly outperform SOTA
+methods by providing a better FLOPS/Accuracy tradeoff without fine tuning. In fact, we
+often outperform methods that rely on significant fine tuning
+3. We demonstrate that using randomized techniques enables our methodology to scale by
+compressing the much larger modern generative decoder model Llama-2 7B Touvron et al.
+[2023] in a few hours on a single GPU.
+1.2 Related Work
+Reductions in the memory footprint and inference speed of pre-trained transformer models can be
+accomplished through knowledge distillation Jiao et al. [2019], Sanh et al. [2019b], Stanton et al.
+[2021], Sun et al. [2019], Wang et al. [2020b], quantization Kim et al. [2021], Shen et al. [2020],
+Zadeh et al. [2020], Zafrir et al. [2019], pruning Kurtic et al. [2022], Sajjad et al. [2023], Hou et al.
+[2020], Lagunas et al. [2021], Frantar and Alistarh [2023], Parnami et al. [2021] or other methods
+such as matrix factorization Wang et al. [2020c], Lin et al. [2020]. We focus on methods which
+require no (or minimal) re-training.
+Transformer Pruning Pruning has been a fruitful method to eliminate insignificant weights in neu-
+ral networks. It can be split into two main categories: structured and unstructured pruning. Previous
+works have applied several unstructured pruning methods to transformers including magnitude Gale
+et al. [2019], first order Sanh et al. [2020], and second order Kurtic et al. [2022] pruning. However, it
+is difficult to leverage unstructured sparsity to speed up models with commercially available hardware.
+As a result, several structured pruning methods have been proposed to eliminate groups of parameters
+at a time. Low-rank factorization Wang et al. [2020c], block-wise sparsity Li et al. [2020], and tile-
+wise sparsity Guo et al. [2020] were studied to prune structured sets of parameters in weight matrices.
+Researchers have investigated how to specialize pruning methods for transformers, including how
+coarse-grained structures like attention heads Michel et al. [2019], Voita et al. [2019], Parnami et al.
+[2021], channels He et al. [2017], and entire layers Shim et al. [2021], Fan et al. [2019], Sajjad et al.
+[2023] could be pruned away While structured methods may achieve significant speedups, they often require re-training or knowl-
+edge distillation to recover accuracy.Lagunas et al. [2021], Xia et al. [2022] In some cases this can
+exceed the resource consumption of training the original network from scratch, especially when the
+pruning pipeline also introduces new hyperparameters. Hou et al. [2020], Lagunas et al. [2021], Liu
+et al. [2021a]
+Retraining Free Transformer Compression Both structured Kim et al. [2020], Srinivas and Babu
+[2015], Yvinec et al. [2021] and unstructured Lazarevich et al. [2021], Frantar and Alistarh [2022],
+Mussay et al. [2020] post-training pruning schemes have been examined for CNNs and fully con-
+nected layers. However, CNNs have repeating linear layers and element-wise nonlinearity, whereas
+transformers have multi-head attention layers, which makes many of those methods nontransferable.
+One method presented by Kwon et al. [2022] leverages a block-diagonal approximation of the Fischer
+information matrix to inform which attention heads to prune. Their method achieves a 40% reduction
+in FLOPs while maintaining within 1% accuracy of the baseline model for several GLUE and SQuAD
+tasks. However, the approximation used by this work is limited in its efficacy and, as we will show,
+our principled use of structured matrix factorizations yields a favorable trade off between accuracy
+and model size. Another method presented in Tukan et al. Tukan et al. [2021] compresses the
+embedding layer of the network using low-rank approximation.
+Three major methods have come out in the past year which present re-training free results on truly
+large language models. The first, LLM Surgeon, van der Ouderaa et al. [2024], uses both activations
+and gradients to estimate the curvature of the loss function and therefore select structures to remove
+and update remaining weights to compensate. Their multi-shot algorithm provides very accurate state
+of the art results, but requires a large amount of computational resources to reach its full potential.
+The second, SliceGPT, Ashkboos et al. [2024], uses principal component analysis to compress the
+network along the embedding dimension, based on the observation that layer norms can be re-written
+as RMS norms, which commutes with multiplication by unitary matrices. The third, WANDA,
+compresses the network by deleting weights using the activations as a heuristic. However, it does not
+use a correction matrix and only produces results for unstructured and 2:4 structured sparsity.
+Quantization Post-training Quantization as a means to reduce the memory footprint of neural
+networks while retaining accuracy has shown promise Kim et al. [2021], Zadeh et al. [2020], Zafrir
+et al. [2019], Shen et al. [2020]. The simplest method, round-to-nearest, often produces reasonable
+results at moderate levels of compression Nagel et al. [2020], Lagunas et al. [2021]. Other methods
+Wang et al. [2020a], Hubara et al. [2020], Chee et al. [2023], Egiazarian et al. [2024], Shao et al.
+[2024] use data to calibrate quantization, and have begun pushing towards 3 bit and even 2 bit
+quantization for large networks. Nevertheless, there are challenges in realizing inference speedups
+using arbitrary quantization and we consider this work complementary to our own (with different
+strengths and weaknesses) rather than a direct alternative.`
+Limitations and Future Work
+STAT is a method to compress transformer networks without fine tuning that achieves state of the art
+results on several combinations of models and datasets. However, there remains several limitations
+to the method and avenues for future work. First, we believe that we have not exhausted the ability
+to improve the performance of our method by increasing the pruning set size for the Llama models,
+though this would increase the time to compress the networks. Perhaps the greatest current limitation
+of our method is the the need to slightly adapt the per-layer error metric computation for different
+network architectures. We hypothesize that the placement of the layer-norm in a network changes
+the sensitivity of the network to changes in outputs from different layers, and a systematic study is
+needed to confirm this hypothesis and determine a path forward. Some preliminary exploration of
+these points can be found in the Appendix and we plan to pursue these avenues in future work.
+

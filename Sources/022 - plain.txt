@@ -1,0 +1,79 @@
+ABSTRACT
+A methodology based on deep recurrent models for maritime surveil-
+lance, over publicly available Automatic Identification System (AIS)
+data, is presented in this paper. The setup employs a deep Recurrent
+Neural Network (RNN)-based model, for encoding and reconstruct-
+ing the observed ships’ motion patterns. Our approach is based
+on a thresholding mechanism, over the calculated errors between
+observed and reconstructed motion patterns of maritime vessels.
+Specifically, a deep-learning framework, i.e. an encoder-decoder ar-
+chitecture, is trained using the observed motion patterns, enabling
+the models to learn and predict the expected trajectory, which will
+be compared to the effective ones. Our models, particularly the
+bidirectional GRU with recurrent dropouts, showcased superior
+performance in capturing the temporal dynamics of maritime data,
+illustrating the potential of deep learning to enhance maritime
+surveillance capabilities. Our work lays a solid foundation for fu-
+ture research in this domain, highlighting a path toward improved
+maritime safety through the innovative application of technology.
+KEYWORDS
+datasets, neural networks, segmentation, RNN, GRU, deep learning,
+AI, AIS, maritime, outlier detection
+1 INTRODUCTION
+In the maritime domain the creation and utilization of reliable mech-
+anisms for anomaly detection is crucial [12]. Nowadays, the term
+anomaly detection employs much more than just deviations from a
+predifined set of rules. Operators are interested in early indications
+of potential risks, such as environmental hazards, navigational er-
+rors, or even covert suspicious activities. These subtle changes in
+trajectories, if promptly detected, could significantly bolster mar-
+itime security, aid in risk mitigation, and provide timely insights
+to law enforcement authorities. As such, the utilization of deep
+learning approaches, based on various data sources, is an active
+research field [13].
+The Automatic Identification System (AIS) is a widely used track-
+ing system in the maritime industry that enables vessels to au-
+tomatically broadcast information about their identity, position,
+speed, and other relevant information [7 ]. AIS was originally devel-
+oped to enhance maritime safety and navigation, but it also serves
+other purposes such as vessel traffic management, maritime domain
+awareness, and search and rescue operations. As such, it serves
+∗All authors contributed equally to this research.
+as an extremely useful data source for any analysis that involves
+outliers detection.
+The amount of data provided by AIS dictates the utilization of
+deep learning approaches, which are capable of capturing complex
+dynamics in maritime environments [ 9]. Furthermore, since we are
+handling sequences of information, i.e. ships motion patterns as
+time series, RNN architectures should be considered. In this study,
+we employ a deep-learning RNN-based approach for encoding and
+reconstructing the observed ships’ motion patterns. The outlier de-
+tection mechanisms are based on the reconstruction errors between
+the model and the observed values.
+
+6 CONCLUSIONS
+In conclusion, our study advances the field of maritime navigation
+anomaly detection by leveraging deep learning models to analyze
+AIS data from MarineCadastre. Through a meticulous experimen-
+tal setup employing RNNs, including SimpleRNN and GRU, we
+have demonstrated the effectiveness of different architectures in
+identifying navigational anomalies. Our models, particularly the
+bidirectional GRU with recurrent dropouts, showcased superior
+performance in capturing the temporal dynamics of maritime data,
+illustrating the potential of deep learning to enhance maritime
+surveillance.
+Our deliberate approach to model training, ensuring not to over-
+fit to outliers, has underscored the importance of a balanced method-
+ology that prioritizes the detection of genuine anomalies over mem-
+orizing data idiosyncrasies. This strategy, combined with our thor-
+ough analysis, has notably identified certain vessels that frequently
+appear as outliers, underscoring the recurrent nature of specific
+anomalies within the maritime domain.
+Moving forward, the integration of sophisticated deep learning
+techniques with an exhaustive analysis of AIS data is poised to
+significantly enhance maritime surveillance capabilities. Our work
+lays a solid foundation for future research in this domain, highlight-
+ing a path toward improved maritime safety through the innovative
+application of technology. This research marks an important mile-
+stone in the evolution of anomaly detection in maritime navigation,
+paving the way for a safer and more secure maritime environment.

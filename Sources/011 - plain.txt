@@ -1,0 +1,100 @@
+Abstract
+Optimal transport (OT) has profoundly impacted machine learning by providing the-
+oretical and computational tools to realign datasets. In this context, given two large
+point clouds of sizes n and m in Rd, entropic OT (EOT) solvers have emerged as the
+most reliable tool to either solve the Kantorovitch problem and output a n × m cou-
+pling matrix, or to solve the Monge problem and learn a vector-valued push-forward
+map. While the robustness of EOT couplings/maps makes them a go-to choice in
+practical applications, EOT solvers remain difficult to tune because of a small but
+influential set of hyperparameters, notably the omnipresent entropic regularization
+strength ε. Setting ε can be difficult, as it simultaneously impacts various perfor-
+mance metrics, such as compute speed, statistical performance, generalization, and
+bias. In this work, we propose a new class of EOT solvers (PROGOT), that can esti-
+mate both plans and transport maps. We take advantage of several opportunities to
+optimize the computation of EOT solutions by dividing mass displacement using a
+time discretization, borrowing inspiration from dynamic OT formulations [McCann,
+1997], and conquering each of these steps using EOT with properly scheduled
+parameters. We provide experimental evidence demonstrating that PROGOT is a
+faster and more robust alternative to EOT solvers when computing couplings and
+maps at large scales, even outperforming neural network-based approaches. We
+also prove the statistical consistency of PROGOT when estimating OT maps.
+1 Introduction
+Many problems in generative machine learning and natural sciences—notably biology [Schiebinger
+et al., 2019, Bunne et al., 2023], astronomy [Métivier et al., 2016] or quantum chemistry [Buttazzo
+et al., 2012]—require aligning datasets or learning to map data points from a source to a target
+distribution. These problems stand at the core of optimal transport theory [Santambrogio, 2015] and
+have spurred the proposal of various solvers [Peyré et al., 2019] to perform these tasks reliably. In
+these tasks, we are given n and m points respectively sampled from source and target probability
+distributions on Rd, with the goal of either returning a coupling matrix of size n × m (which solves
+the so-called Kantorovitch problem), or a vector-valued map estimator that extends to out-of-sample
+data (solving the Monge problem).
+In modern applications, where n, m ≳ 104, a popular approach to estimating either coupling or maps
+is to rely on a regularization of the original Kantorovitch linear OT formulation using neg-entropy.
+This technique, referred to as entropic OT, can be traced back to Schrödinger and was popularized
+for ML applications in [Cuturi, 2013] (see Section 2). Crucially, EOT can be solved efficiently
+with Sinkhorn’s algorithm (Algorithm 1), with favorable computational [Altschuler et al., 2017, Lin
+et al., 2022] and statistical properties [Genevay, 2019, Mena and Niles-Weed, 2019] compared to
+linear programs. Most couplings computed nowadays on large point clouds within ML applications
+EOT Debiased EOT ProgOT
+xtrain xtest ytrain Transported(xtest) xinterpolateFigure 1: (left) EOT solvers collapse when the value of ε is not properly chosen. This typically
+results in biased map estimators and in blurry couplings (see Fig. 2 for the coupling matrix obtained
+between xtrain and ytrain). (middle) Debiasing the output of EOT solvers can prevent a collapse to the
+mean seen in EOT estimators, but computes the same coupling. PROGOT (right) ameliorates these
+problems in various ways: by decomposing the resolution of the OT problem into multiple time steps,
+and using various forms of progressive scheduling, we recover both a coupling whose entropy can be
+tuned automatically and a map estimator that is fast and reliable.
+are obtained using EOT solvers that rely on variants of the Sinkhorn algorithm, whether explicitly,
+or as a lower-level subroutine [Scetbon et al., 2021, 2022]. The widespread adoption of EOT has
+spurred many modifications of Sinkhorn’s original algorithm (e.g., through acceleration [Thibault
+et al., 2021] or initialization [Thornton and Cuturi, 2023]), and encouraged its incorporation within
+neural-network OT approaches [Pooladian et al., 2023, Tong et al., 2023, Uscidda and Cuturi, 2023].EOT ProgOT
+0.0000 0.0001 0.0002 0.0003 0.0004
+Figure 2: Coupling matrices between train
+points in Fig. 1. Comparison of EOT with a
+fairly large ε, and PROGOT which automati-
+cally tunes the entropy of its coupling accord-
+ing to the target point cloud’s dispersion.
+Though incredibly popular, Sinkhorn’s algorithm is
+not without its drawbacks. While a popular tool due
+its scalability and simplicity, its numerical behavior
+is deeply impacted by the amount of neg-entropy
+regularization, driven by the hyperparameter ε. Some
+practitioners suggest to have the parameter nearly
+vanish [Xie et al., 2020, Schmitzer, 2019], others
+consider the case where it diverges, highlighting
+links with the maximum mean discrepancy [Ramdas
+et al., 2017, Genevay et al., 2019].
+Several years after its introduction to the machine
+learning community [Cuturi, 2013], choosing a
+suitable regularization term for EOT remains a
+thorny pain point. Common approaches are setting
+ε > 0 to a default value (e.g., the max [Flamary
+et al., 2021] or mean [Cuturi et al., 2022b] normalization of the transport cost matrix), incorporating
+a form of cross-validation or an unsupervised criterion [Vacher and Vialard, 2022, Van Assel et al.,
+2023], or scheduling ε [Lehmann et al., 2022, Feydy, 2020]. When ε is too large, the algorithm
+converges quickly, but yields severely biased maps (Figure 1, left), or blurry, uninformative couplings
+(Figure 2). Even theoretically and numerically debiasing the Sinkhorn solver (Figure 1, middle) does
+not seem to fully resolve the issue [Feydy et al., 2019, Pooladian et al., 2022]. To conclude, while
+strategies exist to alleviate this bias, there currently exists no one-size-fits-all solution to this problem.
+Our contribution: an EOT solver with a dynamic lens. Recent years have witnessed an explosion
+in neural-network approaches based on the so-called Benamou and Brenier dynamic formulation
+of OT [Lipman et al., 2022, Liu, 2022, Tong et al., 2023, Pooladian et al., 2023]. A benefit of this
+perspective is the ability to split the OT problem into simpler sub-problems that are likely better
+conditioned than the initial transport problem. With this observation, we propose a novel family of
+progressive EOT solvers, called PROGOT, that are meant to be sturdier and easier to parameterize than
+existing solvers. Our key idea is to exploit the dynamic nature of the problem, and vary parameters
+dynamically, such as ε and convergence thresholds, along the transport. We show that PROGOT
+• can be used to recover both Kantorovitch couplings and Monge map estimators,
+• strikes the right balance between computational and statistical tradeoffs,
+• can outperform other (including neural-network based) approaches on real datasets,
+• gives rise to a novel, provably statistically consistent map estimator under standard assumptions.
+Conclusion
+In this work, we proposed PROGOT, a new family of EOT solvers that blend dynamic and static formu-
+lations of OT by using the Sinkhorn algorithm as a subroutine within a progressive scheme. PROGOT
+aims to provide practitioners with an alternative to the Sinkhorn algorithm that (i) does not fail when
+instantiated with uninformed or ill-informed ε regularization, thanks to its self-correcting behavior
+and our simple ε-scheduling scheme that is informed by the dispersion of the target distribution, (ii)
+9
+performs at least as fast as Sinkhorn when used to compute couplings between point clouds, and (iii)
+provides a reliable out-of-the-box OT map estimator that comes with a non-asymptotic convergence
+guarantee. We believe PROGOT can be used as a strong baseline to estimate Monge maps.

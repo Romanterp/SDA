@@ -1,0 +1,145 @@
+Abstract
+Leveraging human preferences for steering the behavior of Large Language Models
+(LLMs) has demonstrated notable success in recent years. Nonetheless, data
+selection and labeling are still a bottleneck for these systems, particularly at large
+scale. Hence, selecting the most informative points for acquiring human feedback
+may considerably reduce the cost of preference labeling and unleash the further
+development of LLMs. Bayesian Active Learning provides a principled framework
+for addressing this challenge and has demonstrated remarkable success in diverse
+settings. However, previous attempts to employ it for Preference Modeling did not
+meet such expectations. In this work, we identify that naive epistemic uncertainty
+estimation leads to the acquisition of redundant samples. We address this by
+proposing the Bayesian Active Learner for Preference Modeling (BAL-PM), a
+novel stochastic acquisition policy that not only targets points of high epistemic
+uncertainty according to the preference model but also seeks to maximize the
+entropy of the acquired prompt distribution in the feature space spanned by the
+employed LLM. Notably, our experiments demonstrate that BAL-PM requires
+33% to 68% fewer preference labels in two popular human preference datasets and
+exceeds previous stochastic Bayesian acquisition policies.
+
+1 Introduction
+Figure 1: Log-likelihood of learned preference
+models in the Reddit TL;DR dataset [ 51 ]. Our
+method, BAL-PM, reduces the volume of required
+human feedback by 33% over random acquisition.
+Preference Modeling is a key component to
+aligning unsupervised pre-trained Large Lan-
+guage Models (LLMs) towards human prefer-
+ences [51 , 42 , 2 , 54 ]. It is often performed by
+collecting human feedback for a set of prompt-
+answer pairs and then leveraging the data to steer
+the behavior of such models, either directly [ 45]
+or via reward models [ 59 ]. Nevertheless, human
+feedback generation is laborious [ 7], especially
+when it requires specialized knowledge [3 , 22 ].
+Furthermore, the quality of the prompts has a
+crucial impact on the performance of fine-tuned
+models [ 52]. Hence, selecting the most infor-
+mative points to gather feedback is essential to
+reduce costs and enable better LLMs.
+Despite its substantial impact, data selection for
+Preference Modeling poses a significant chal-
+lenge. The prompt-answer pool is arbitrarily
+
+Figure 2: An illustration of how BAL-PM works. For each tuple (x, y1, y2) ∈ Dpool, we obtain
+features for the prompt and prompt-answer pairs by computing the last layer embeddings of the
+base LLM. We leverage the prompt feature space to estimate the entropy score of the acquired
+prompt distribution, ˆH(Xtrain ∪ {x}). Similarly, we use the prompt-answer features as input for the
+Bayesian Preference Model, which is used to estimate task-dependent epistemic uncertainty scores,
+ˆU (x, y1, y2). BAL-PM selects the tuple that maximizes the linear combination of both scores.
+large and semantically rich. Additionally, human feedback is inherently noisy, with low agreement
+rates among labelers, typically between 60% – 75% [59 , 51, 12 , 10 ]. Lastly, the intrinsic scale of LLM
+development requires parallelized labeling and makes frequent model updates prohibitively expensive,
+limiting the applicability of many active learning schemes that rely on single-point acquisition [28].
+Bayesian Active Learning provides a principled approach to data selection [16, 27, 38], which has
+demonstrated remarkable success across different fields [ 50 , 17 , 14 ]. However, its application in
+Active Preference Modeling is not straightforward. Past attempts of employing the framework in this
+setting reported no benefits over random selection [ 18 ], arguably due to poor uncertainty estimation
+in the context of LLMs, which is indeed an open challenge and active area of research [32].
+We identify two reasons for this phenomenon. First, the inherent bias of approximate Bayesian
+inference in deep learning models, particularly for LLMs. Second, and more nuanced, the current
+intractability of epistemic uncertainty estimation methods in Preference Modeling for LLMs, a context
+that intrinsically requires batch acquisition. Proper estimators for this setting present combinatorial
+complexity, and even greedy approximations are still computationally demanding and impractical
+[ 28, 29 ]. This limitation leads to relying on simpler single-point acquisition schemes such as BALD
+[35 ] (as in Gleave and Irving [18]), designed to acquire individual points followed by model updates.
+However, these assumptions are far from realistic for the scale of Preference Modeling in LLMs, and
+naively applying such methods for batch acquisition leads to the selection of redundant samples.
+In this work, we argue that leveraging the information available from the feature space spanned by
+the LLM – a task-agnostic3 source of epistemic uncertainty – alleviates these problems. We propose
+Bayesian Active Learner for Preference Modeling (BAL-PM), a novel stochastic acquisition policy
+that not only targets points of high epistemic uncertainty according to the preference model but also
+seeks to maximize the entropy of the acquired prompt distribution in the feature space. This entropy
+score encourages the active learner to select prompts from low-density regions, effectively reducing
+the feature space epistemic uncertainty [ 40]. As a result, it promotes diversity in the acquired training
+set, preventing the selection of redundant samples and also helping in learning a better Bayesian
+preference model and its task-dependent epistemic uncertainty estimates for subsequent acquisitions.
+Figure 2 illustrates how BAL-PM works.
+We conduct active learning experiments in the Reddit and CNN/DM preference datasets [ 56 , 21 , 51 ]
+to validate our method. BAL-PM demonstrates strong gains over random sampling, reducing by
+approximately 33% (as shown in Figure 1) and 68% the volume of feedback required to learn the
+preference model in the considered datasets. It also consistently surpasses other strong stochastic
+Bayesian acquisition policies [29 ]. Finally, we further analyze the acquired prompt distribution to
+show that BAE-PM prevents redundant exploration and effectively balances the contribution of the
+two sources of epistemic uncertainty.
+
+2000 8000 12000 16000 20000 24000
+Acquired Data
+0.64
+0.63
+0.62
+0.61
+0.60
+~32% fewer samples
+Log Likelihood
+Random Sampling
+BALD
+BAL-PM (ours)(a) 70b Parameter Model2000 8000 12000 16000 20000 24000
+Acquired Data
+0.65
+0.63
+0.61
+0.59
+~31% fewer samples
+Log Likelihood
+Random Sampling
+BALD
+BAL-PM (ours) (b) 140b Parameter Model
+Figure 7: The effect of scaling the base LLM. We analyzed how increasing the size of the base
+LLM affects BAL-PM performance in the Reddit TL;DR dataset. We considered (a) a 70-billion
+parameter model and (b) a 140-billion parameter model. Interestingly, we find approximately the
+same gains (31%–33% reduction of required samples) across all models.
+this rate progressively decays as BAL-PM exhausts the pool of different prompts and due to the
+influence of the epistemic uncertainty prioritizing particular prompt-answer pairs.
+How does BAL-PM scale to larger LLMs? As highlighted in Section 4 our design choices allow us
+to scale our experiment for very large base LLMs in a single GPU setting. We investigate the effect
+of scaling the base LLM in BAL-PM performance, considering 70-billion and 140-billion parameter
+models in their 4-bit quantized versions. Naturally, the preference model performance improves
+substantially against the 7-billion parameter model. More interestingly, BAL-PM presents similar
+gains across all scales, with around 31%–33% reduction of required samples compared to random
+sampling. In contrast, BALD still does not present benefits over random sampling, suggesting that
+the scale of the base LLM is not the prevailing factor for its negative result.
+Ablations and Further Analysis. We conduct ablation studies in the key components of the proposed
+method in Appendix D. More concretely, we ablate the components of the objective to show that
+both preference model epistemic uncertainty and entropy scores play a relevant role in BAL-PM. We
+also ablate the type of uncertainty and the employed entropy estimator. Lastly, we conduct further
+empirical analysis in Appendix F to investigate how each component of Equation 5 contributes to the
+data selection.
+6 Closing Remarks
+In this work, we present BAL-PM, a Bayesian Active Learning method for Preference Modeling
+in Language Models. BAL-PM is a stochastic acquisition policy that selects points for which the
+preference model presents high epistemic uncertainty and also maximizes the entropy of the acquired
+prompt distribution. We show that leveraging the information available on the feature space spanned
+by the base LLM via this entropy term has a crucial role in preventing the acquisition of redundant
+samples. BAL-PM substantially reduces the volume of feedback required for Preference Modeling
+and outperforms existing Bayesian stochastic acquisition policies. It also scales for very large LLMs
+and effectively balances the contribution of both considered sources of uncertainty.
+Limitations. Despite its encouraging results, BAL-PM presents some limitations. For instance, it
+heavily relies on the quality of the feature representations provided by the base LLM. Particularly,
+it might be subject to the Noisy-TV problem [ 6] and provide high-entropy scores to nonsensical
+prompts if those are spread in the representation space rather than collapsed into a single region.
+Fortunately, we expect this limitation to be progressively addressed by better LLMs.
+Future Work may evaluate BAL-PM in larger preference datasets with millions or billions of data
+points. Another direction analyzes how the learned models perform in the Preference Optimization
+setting. Lastly, future work may extend BAL-PM to consider recent prediction-oriented methods of
+epistemic uncertainty estimation [4] in contrast to parameter-based methods such as BALD.

@@ -1,0 +1,164 @@
+Abstract—Graphs play an important role in representing complex relationships in various domains like social networks, knowledge
+graphs, and molecular discovery. With the advent of deep learning, Graph Neural Networks (GNNs) have emerged as a cornerstone in
+Graph Machine Learning (Graph ML), facilitating the representation and processing of graph structures. Recently, LLMs have
+demonstrated unprecedented capabilities in language tasks and are widely adopted in a variety of applications such as computer vision
+and recommender systems. This remarkable success has also attracted interest in applying LLMs to the graph domain. Increasing efforts
+have been made to explore the potential of LLMs in advancing Graph ML’s generalization, transferability, and few-shot learning ability.
+Meanwhile, graphs, especially knowledge graphs, are rich in reliable factual knowledge, which can be utilized to enhance the reasoning
+capabilities of LLMs and potentially alleviate their limitations such as hallucinations and the lack of explainability. Given the rapid progress
+of this research direction, a systematic review summarizing the latest advancements for Graph ML in the era of LLMs is necessary to
+provide an in-depth understanding to researchers and practitioners. Therefore, in this survey, we first review the recent developments in
+Graph ML. We then explore how LLMs can be utilized to enhance the quality of graph features, alleviate the reliance on labeled data, and
+address challenges such as graph heterogeneity and out-of-distribution (OOD) generalization. Afterward, we delve into how graphs can
+enhance LLMs, highlighting their abilities to enhance LLM pre-training and inference. Furthermore, we investigate various applications
+and discuss the potential future directions in this promising field.
+1 INTRODUCTION
+GRaph data are widespread in many real-world appli-
+cations [1], [2], including social graphs, knowledge
+graphs, and recommender systems [3]–[5]. Typically, graphs
+consist of nodes and edges, e.g., in a social graph, nodes
+represent users and edges represent relationships [6], [7]. In
+addition to the topological structure, graphs tend to possess
+various features of nodes, such as textual description, which
+provide valuable context and semantic information about
+nodes. To effectively model the graph, Graph Machine Learning
+(Graph ML) has garnered significant interest. With the advent
+of deep learning (DL), Graph Neural Networks (GNNs)
+have become a critical technique in Graph ML due to their
+message-passing mechanism. This mechanism allows each
+node to obtain its representation by recursively receiving
+and aggregating messages from neighboring nodes [8],
+[9], thereby capturing the high-order relationships and
+dependencies within the graph structure. To mitigate the
+reliance on supervised data, many research focused on
+developing self-supervised Graph ML methods to advance
+GNNs to capture transferable graph patterns, enhancing
+their generalization capabilities across various tasks [10]–[13].
+Given the exponential growth of applications of graph data,
+researchers are actively working to develop more powerful
+Graph ML methods.
+Recently, Large Language Models (LLMs) have started
+a new trend of AI and have shown remarkable capabilities
+in natural language processing (NLP) [14], [15]. With the
+evolution of these models, LLMs are not only being applied
+to language tasks but also showcasing great potentials in
+various applications such as CV [16], and Recommender
+System [17]. The effectiveness of LLMs in complex tasks
+is attributed to their extensive scale in both architecture
+and dataset size. For example, GPT-3 with 175 billion
+parameters demonstrates exciting capabilities by generating
+human-like text, answering complex questions, and coding.
+Furthermore, LLMs are able to grasp extensive general
+knowledge and sophisticated reasoning due to their vast
+training datasets. Therefore, their abilities in linguistic
+semantics and knowledge reasoning enable them to learn
+semantic information. Additionally, LLMs exhibit emergence
+abilities, excelling in new tasks and domains with limited
+or no specific training. This attribute is expected to provide
+high generalisability across different downstream datasets
+and tasks even in few-shot or zero-shot situations. Therefore,
+leveraging the capabilities of LLMs in Graph Machine
+Learning (Graph ML) has gained increasing interest and is
+expected to enhance Graph ML towards Graph Foundation
+Models (GFMs) [18], [19].
+GFMs are generally trained on extensive data and can
+be adapted for a wide range of downstream tasks [20]. By
+exploiting the ability of LLMs, it is expected to enhance the
+ability of Graph ML to generalize a variety of tasks, thus
+facilitating GFMs. Currently, researchers have made several
+initial efforts to explore the potential of LLMs in advancing
+Graph ML towards GFMs. Figure 1 demonstrates an example
+of integrating LLMs and GNNs for various graph tasks.
+Firstly, some methods leverage LLMs to alleviate the reliance
+of vanilla Graph ML on labeled data, where they make
+inferences based on implicit and explicit graph structure
+information [21]–[23]. For instance, InstructGLM [21] fine-
+tunes models like LlaMA [24] and T5 [25] by serializing graph
+data as tokens and encoding structural information about
+the graph to solve graph tasks. Secondly, to overcome the
+challenge of feature quality, some methods further employ
+LLMs to enhance the quality of graph features [26]–[28]. For
+example, SimTeG [26] fine-tunes LLMs on textual graphs
+datasets to obtain textual attribute embeddings, which are
+then utilized to augment the GNN for various downstream
+tasks. Additionally, some studies explore using LLMs to
+address challenges such as heterogeneity [29] and OOD [27]
+of graphs.
+On the other hand, although LLM achieves great success
+in various fields, it still faces several challenges, including
+hallucinations, actuality awareness, and lacking explainabil-
+ity [30]–[33]. Graphs, especially knowledge graphs, capture
+extensive high-quality and reliable factual knowledge in
+a structured format [5]. Therefore, incorporating graph
+structure into LLMs could improve the reasoning ability
+of LLMs and mitigate these limitations [34]. To this end,
+efforts have been made to explore the potential of graphs in
+augmenting LLMs’ explainability [35], [36] and mitigating
+hallucination [37], [38]. Given the rapid evolution and
+significant potential of this field, a thorough review of recent
+advancements in graph applications and Graph ML in the
+era of LLMs is imperative.
+Therefore, in this survey, we aim to provide a comprehensive review of Graph Machine Learning in the era
+of LLMs. The outline of the survey is shown in Figure 2:
+Section 2 reviews work related to graph machine learning
+and foundation models. Section 3 introduces the deep
+learning methods on graphs, which focus on various GNN
+models and self-supervised methods. Subsequently, the
+survey delves into how LLMs can be used to enhance
+Graph ML in Section 4 and how graphs can be adopted
+for augmenting LLMs in Section 5. Finally, some applications
+and potential future directions for Graph ML in the era of
+LLMs are discussed in Section 6 and Section 7, respectively.
+Our main contributions can be summarized as follows:
+• We detail the evolution from early graph learning methods
+to the latest GFMs in the era of LLMs;
+• We provide a comprehensive analysis of current LLMs en-
+hanced Graph ML methods, highlighting their advantages
+and limitations, and offering a systematic categorization;
+• We thoroughly investigate the potential of graph structures
+to address the limitations of LLMs;
+• We explore the applications and prospective future direc-
+tions of Graph ML in the era of LLMs, and discuss both
+research and practical applications in various fields.
+Concurrent to our survey, Wei et al. [39] review the
+development of graph learning. Zhang et al. [40] provide
+a prospective review of large graph models. Jin et al. [41]
+and Li et al. [42] review different techniques for pre-
+training language models (in particular LLMs) on graphs
+and applications to different types of graphs, respectively.
+Liu et al. [43] review the Graph Foundation Models according
+to the pipelines. Mao et al. [19] focus on the fundamental
+principles and discuss the potential of GFMs. Different
+from these concurrent surveys, our survey provides a more
+comprehensive review with the following differences: (1)
+we present a more systematic review of the development
+of Graph Machine Learning and further exploration of
+LLMs for Graph ML towards GFMs; (2) we present a
+more comprehensive and fine-grained taxonomy of recent
+advancements of Graph ML in the era of LLMs; (3) we
+delve into the limitations of recent Graph ML, and provide
+insights into how to overcome these limitations from LLM’s
+perspective; (4) we further explore how graphs can be used
+to augment LLMs; and (5) we thoroughly summarize a broad
+range of applications and present a more forward-looking
+discussion on the challenges and future directions.
+
+8 CONCLUSION
+In this survey, we have thoroughly reviewed the recent
+progress of graph applications and Graph ML in the era
+of LLMs, an emerging field in graph learning. We first
+review the evolution of Graph ML, and then delve into
+various methods of LLMs enhancing Graph ML. Due to the
+remarkable capabilities in various fields, LLMs have great
+potential to enhance Graph ML towards GFMs. We further
+explore the augmenting of LLMs with graphs, highlighting
+their ability to enhance LLM pre-training and inference.
+Additionally, we demonstrate their potential in diverse
+applications such as molecule discovery, knowledge graphs,
+and recommender systems. Despite their success, this field
+is still evolving and presents numerous opportunities for
+further advancements. Therefore, we further discuss several
+challenges and potential future directions. Overall, our
+survey aims to provide a systematic and comprehensive
+review to researchers and practitioners, inspiring future
+explorations in this promising field.

@@ -1,0 +1,139 @@
+Abstract
+The differentiable programming paradigm is a cornerstone of modern scientific computing. It refers
+to numerical methods for computing the gradient of a numerical model’s output. Many scientific models
+are based on differential equations, where differentiable programming plays a crucial role in calculating
+model sensitivities, inverting model parameters, and training hybrid models that combine differential
+equations with data-driven approaches. Furthermore, recognizing the strong synergies between inverse
+methods and machine learning offers the opportunity to establish a coherent framework applicable to
+both fields. Differentiating functions based on the numerical solution of differential equations is non-
+trivial. Numerous methods based on a wide variety of paradigms have been proposed in the literature,
+each with pros and cons specific to the type of problem investigated. Here, we provide a comprehensive
+review of existing techniques to compute derivatives of numerical solutions of differential equations. We
+first discuss the importance of gradients of solutions of differential equations in a variety of scientific
+domains. Second, we lay out the mathematical foundations of the various approaches and compare them
+with each other. Third, we cover the computational considerations and explore the solutions available
+in modern scientific software. Last but not least, we provide best-practices and recommendations for
+practitioners. We hope that this work accelerates the fusion of scientific models and data, and fosters
+a modern approach to scientific modelling.
+
+1 Introduction
+Models based on differential equations (DEs), including ordinary differential equations (ODEs) and
+partial differential equations (PDEs), play a central role in describing the behaviour of dynamical
+systems in applied, natural, and social sciences. For instance, DEs are used for the modelling of the
+dynamics of the atmospheric and ocean circulation in climate science, for the modelling of ice or
+mantle flow in solid Earth geophysics, for the modelling of the spatio-temporal dynamics of species
+abundance in ecology, and for the modelling of cancer cell evolution in biology. For centuries,
+scientists have relied on theoretical and analytical methods to solve DEs. Allowing to approximate
+the solutions of large, nonlinear DE-based models, numerical methods and computers have lead
+to fundamental advances in the understanding and prediction of physical, biological, and social
+systems, among others (Dahlquist 1985; Hey et al. 2009; Rüde et al. 2018).
+Quantifying how much the output of a DE-based model changes with respect to its input pa-
+rameters is fundamental to many scientific computing and machine learning applications, including
+optimization, sensitivity analysis, Bayesian inference, inverse methods, and uncertainty quantifica-
+tion, among many (Razavi et al. 2021). Mathematically, quantifying this change involves evaluating
+the gradient of the model, i.e., calculating a vector whose components are the partial derivatives
+of the model evaluated at the model parameter values. In sensitivity analysis, gradients are crucial
+for comprehending the relationships between model inputs and outputs, assessing the influence of
+each parameter, and evaluating the robustness of model predictions. In optimization and inverse
+modelling, where the goal is to fit models to data and/or invert for unknown or uncertain parame-
+ters, gradient-based methods are more efficient at finding a minimum and converge faster to them
+than gradient-free methods. In Bayesian inference, gradient-based sampling strategies are better at
+estimating the posterior distribution than gradient-free methods (Neal et al. 2011). Therefore, ac-
+curately determining model gradients is essential for robust model understanding and effective data
+assimilation that leverage strong physical priors while offering flexibility to adapt to observations.
+This is very appealing in fields such as computational physics, geophysics, and biology, to mention
+a few, where there is a broad literature on DE-based models. The techniques used to compute these
+gradients fall within the framework of differentiable programming.
+Differentiable programming (DP) refers to a set of techniques and software tools for computing
+gradients/sensitivities of a model’s output, evaluated using a computer program, with respect to
+the model’s input variables or parameters (Blondel et al. 2024; Innes et al. 2019; Shen et al. 2023).
+Arguably, the most celebrated DP method is automatic differentiation. The set of tools known as
+automatic or algorithmic differentiation (AD) aims to compute derivatives of a model rendered on a
+computer by applying the chain rule to the sequence of unit operations that constitute a computer
+program (Griewank et al. 2008; Naumann 2011). The premise is simple: every computer program
+is ultimately an algorithm described by a nested concatenation of elementary algebraic operations,
+such as addition and multiplication. These operations are individually easy to differentiate, and
+their composition can be easily differentiated using the chain rule (Giering et al. 1998). During the
+last decades, reverse mode AD, also known as backpropagation, has enabled the fast growth of deep
+learning by efficiently computing gradients of neural networks (Griewank 2012). Some authors have
+recently suggested DP as the bridge between modern machine learning and traditional scientific
+models (Gelbrecht et al. 2023; Rackauckas et al. 2021; Ramsundar et al. 2021; Shen et al. 2023).
+More broadly than AD, DP tools for DE-models further include forward sensitivity and adjoint
+methods that compute the gradient by relying on an auxiliary set of differential equations.
+The development of DP for DE-based models has a long tradition across different scientific
+communities. In statistics, gradients of the likelihood function of DE-based models enable inference
+on the model parameters (Ramsay et al. 2017). In numerical analysis, sensitivities quantify how the
+solution of a differential equation fluctuates with respect to certain parameters. This is particularly
+useful in optimal control theory, where the goal is to find the optimal value of some control (e.g. the
+shape of a wing) that minimizes a given loss function (Giles et al. 2000). In recent years, there has
+been an increasing interest in designing machine learning workflows that include constraints in the
+form of DEs and are trained using gradient descent techniques. This emerging sub-field is usually
+referred as physics-based or physics-informed machine learning (Karniadakis et al. 2021; Thuerey
+et al. 2021; Vadyala et al. 2022).
+The need for model gradients is even more critical as the total number of parameters and the
+expressivity of the model increases, especially when dealing with highly non-linear processes. In
+such circumstances, the curse of dimensionality renders gradient-free optimization and sampling
+methods computationally intractable. This is the case in inverse methods (Ghattas et al. 2021;
+Tarantola 2007) and in machine learning applications (LeCun et al. 2015), where highly parametrized
+regressor functions (e.g., neural networks) are used to approximate unknown non-linear function.
+Furthermore, for stochastic forward models, the intractability of the likelihood function represents a
+major challenge for statistical inference. The integration of DP has provided new tools for resolving
+complex simulation-based inference problems (Cranmer et al. 2020).
+Computing gradients of functions, represented by DE-based simulation codes, with respect to
+their (high-dimensional) inputs is challenging due to the complexities in both the mathematical
+framework and the software implementation involved. Except for a small set of particular cases,
+most DEs require numerical methods to approximate their solution, which means that solutions
+cannot be differentiated analytically. Furthermore, numerical solutions introduce approximation
+errors. These errors can be propagated to the computation of the gradient, leading to inaccurate
+or inconsistent gradient values. Additional to these complexities, the broad family of numerical
+methods, each one of them with different advantages depending on the DE (Hairer et al. 2008;
+Wanner et al. 1996), means that the tools developed to compute gradients need to be universal
+enough in order to be applied to all or at least to a large set of them.
+There exists a large family of methods to compute derivatives of DE-based models. The dif-
+ferences between methods to compute derivatives arise both from their mathematical formulation,
+numerical stability, and their computational implementation. They can be roughly classified as
+continuous (differentiate-then-discretize) or discrete (discretize-then-differentiate) and forward or
+reverse. Different methods guarantee different levels of accuracy, have different computational com-
+plexity, and require different trade-offs between run time and memory usage. These properties
+further depend of the total number of parameters and size of the DE. Despite their independent
+success, integrating DP with DE-based models remains a significant challenge in high-performance
+scientific computing (Naumann 2011). This paper presents a comprehensive review of methods for calculating derivatives of the numer-
+ical solution of differential equations, with a focus on efficiently computing gradients. We review
+differentiable programming methods for differential equations from three different perspectives: a
+domain science perspective (Section 2), a mathematical perspective (Section 3) and a computer
+science perspective (Section 4). In Section 2 we introduce some of the applications of DP for the
+modelling of complex systems in the natural and social sciences. In Section 3 we present a coherent
+mathematical framework to understand the theoretical differences between the DP methods. In
+Section 4 we show how these methods can be computationally implemented and what are their nu-
+merical advantages and disadvantages. For simplicity, all the methods introduced in Sections 3 and
+4 focus exclusively on first-order ODEs. How these methods generalize to other DE-based models,
+including PDEs, is discussed in Section 5. We conclude the paper with a series of recommendations
+in Section 6. By providing a common framework across all methods and applications, we hope to
+5
+facilitate the development of scalable, practical, and efficient differentiable DE-based models.
+
+7 Conclusions
+We presented a comprehensive overview of the different existing methods for calculating the sensitiv-
+ity and gradients of functions, including loss functions, involving numerical solutions of differential
+equations. This task has been approached from three different angles. First, we presented the ex-
+isting literature in different scientific communities where differential programming tools have been
+used before and play a central modelling role, especially for inverse modeling. Secondly, we re-
+viewed the mathematical foundations of these methods and their classification as forward vs reverse
+and discrete vs continuous. We further compare the mathematical and computational foundations
+of these methods, which we believe enlightens the discussion on sensitivity methods and helps to
+demystify misconceptions around the sometimes apparent differences between methods. Then, we
+have shown how these methods can be translated to software implementations, evaluating consid-
+erations that we must take into account when implementing or using a sensitivity algorithm. We
+further exemplified how these methods are implemented in the Julia programming language.
+There exists a myriad of options and combinations to compute sensitivities of functions involving
+differential equations, further complicated by jargon and scientific cultures of different communities.
+We hope this review paper provides a clearer overview on this topic, and can serve as an entry point
+to navigate this field and guide researchers in choosing the most appropriate method for their
+scientific application.
+52
+Differentiable programming is opening new ways of doing research across different domains of
+science and engineering. Arguably, its potential has so far been under-explored but is being redis-
+covered in the age of data-driven science. Realizing its full potential, requires collaboration between
+domain scientists, methodological scientists, computational scientists, and computer scientists in
+order to develop successful, scalable, practical, and efficient frameworks for real world applications.
+As we make progress in the use of these tools, new methodological questions emerge.

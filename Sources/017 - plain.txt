@@ -1,0 +1,111 @@
+Abstract. Pose estimation has promised to impact healthcare by en-
+abling more practical methods to quantify nuances of human move-
+ment and biomechanics. However, despite the inherent connection be-
+tween pose estimation and biomechanics, these disciplines have largely
+remained disparate. For example, most current pose estimation bench-
+marks use metrics such as Mean Per Joint Position Error, Percentage
+of Correct Keypoints, or mean Average Precision to assess performance,
+without quantifying kinematic and physiological correctness - key aspects
+for biomechanics. To alleviate this challenge, we develop OpenCapBench
+to offer an easy-to-use unified benchmark to assess common tasks in hu-
+man pose estimation, evaluated under physiological constraints. Open-
+CapBench computes consistent kinematic metrics through joints angles
+provided by an open-source musculoskeletal modeling software (Open-
+Sim). Through OpenCapBench, we demonstrate that current pose esti-
+mation models use keypoints that are too sparse for accurate biomechan-
+ics analysis. To mitigate this challenge, we introduce SynthPose, a new
+approach that enables finetuning of pre-trained 2D human pose models
+to predict an arbitrarily denser set of keypoints for accurate kinematic
+analysis through the use of synthetic data. Incorporating such finetun-
+ing on synthetic data of prior models leads to twofold reduced joint
+angle errors. Moreover, OpenCapBench allows users to benchmark their
+own developed models on our clinically relevant cohort. Overall, Open-
+CapBench bridges the computer vision and biomechanics communities,
+aiming to drive simultaneous advances in both areas.
+1 Introduction
+A major part of kinematic biomechanical analysis is the study of joint angles
+that are critical for understanding the interplay between body segments for use
+in applications ranging from diagnostics [2,10,37] and intervention strategies [38]
+to optimizing athletic performance [25]. Traditionally, acquiring high-quality
+kinematic data for research and clinical studies requires a dedicated gait lab-
+oratory with synchronized high-speed cameras, application of multiple optical
+motion markers, and expert personnel trained in biomechanics. These cumber-
+some requirements make clinical assessment and large-scale clinical trials cost-
+prohibitive. Meanwhile, in the domain of computer vision, pose estimation mod-
+els strive to capture and predict human movement from single or multiple videos.
+Yet, despite the clear intersections in the objectives of the biomechanics and pose
+estimation domains, there remains a disconnect in their methodologies and eval-
+uations. Importantly, biomechanical models for estimating kinematics constrain
+joints to move in physiologically realistic ways. For example, while biomechanics
+researchers constrain movement of the knee to only have one degree-of-freedom
+joint [13], computer vision approaches use physiologically implausible uncon-
+strained three degree-of-freedom motion [34].
+Evaluating kinematic metrics is not only important in clinical and sports
+biomechanics, but can also improve machine learning approaches to pose estima-
+tion [11]. Using more physiologic joints may serve as a form of regularization, thus
+improving estimated poses. Furthermore, kinematic metrics provide a richer,
+temporally consistent, and functionally relevant evaluation compared to tradi-
+tional pose estimation metrics like Mean Per Joint Position Error (MPJPE) [17],
+Percentage of Correct Keypoints (PCK) or mean Average Precision (mAP) [51].
+Kinematic metrics such as Root Mean Squared Error (RMSE) of joint angle
+better encapsulate the complexities and constraints of human motion, and by
+emphasizing these metrics, models might generalize more effectively across di-
+verse and out-of-distribution poses, view angles, and occlusions [18, 20].
+Biomechanical studies [44] show that popular computer vision-based pose
+estimation models and datasets with sparse keypoint annotations only on joint
+centers [8, 27] result in large errors in joint angles. These errors are likely owing
+to the fact that only estimating joint centers leaves identifying specific joint
+angle contributions from the three anatomical axes unconstrained. Therefore,
+while typical computer vision metrics focused on keypoints accuracy might be
+satisfactory, specific joint kinematics can still have large errors, illustrating the
+need for improved benchmarks and metrics of pose estimation.
+Connecting the realms of biomechanical kinematic analysis and pose esti-
+mation with computer vision can benefit both fields. Tighter integration can
+provide real-world benchmarks for computer vision researchers, while translat-
+ing promising pose estimation models into clinical practice can benefit biome-
+chanics researchers. Against this backdrop, our work aims to bridge the current
+separation between these disciplines. Our contributions are as follows:
+– We introduce OpenCapBench, a benchmark to align the fields of biome-
+chanics and pose estimation. OpenCapBench includes a fully automated
+pipeline to streamline the transfer from pose estimation results to the
+widely-used musculoskeletal modeling and simulation software OpenSim [41].
+This integration allows computer vision experts to seamlessly generate kine-
+matic analyses, without requiring expertise in musculoskeletal biomechanical
+modeling.
+– We introduce SynthPose, a novel method that uses synthetic data to
+allow efficient finetuning of pretrained pose estimation models to
+predict a denser set of keypoints and improve biomechanical analysis.
+– Using our new kinematic benchmark, we show that compared to sparse
+keypoints, our Synthpose method twofold reduces average joint angle
+RMSE and up to fourfold for certain biomechanically-relevant body joints.
+The benchmarking pipeline and the different components of SynthPose will be
+available here.
+In uniting the strengths of biomechanics and computer vision, we envision a
+future where pose estimation models are not just technically proficient, but can
+also help improve human movement analysis and human health outcomes.
+
+OpenCapBench represents a step towards integrating kinematics and pose es-
+timation, while introducing SynthPose, a method for estimating arbitrary key-
+points which benefits both fields. This approach yields detailed insights into
+the performance of pose estimation models and the importance of diverse and
+comprehensive training data in refining these models.
+Despite the benefits of OpenCapBench, the current dataset diversity within
+OpenCapBench currently lacks breadth in terms of subject variety, environmen-
+tal settings, and the range of activities covered, which will be a focus of future
+work. Integrating additional datasets which use MoCap as ground truth such as
+MoYo [43] or PSU-TMM100 [39] may extend the benchmark’s applicability and
+relevance across broader kinematic studies.
+At present, OpenCapBench primarily focuses on lower body kinematics.
+Adding upper body kinematics and including upper limb assessments could help
+characterize more holistic view of human motion.
+While we focused on 2D pose estimation, we envision that Synthpose could
+benefit monocular 3D models as well, since they similarly suffer from keypoint
+scarcity as 2D models. We hope to work on such problems in the future or
+encourage the community to do so.
+Finally, the open-source aspect and the versatility of OpenCapBench presents
+an opportunity for the community to engage with it through other pose estima-
+tion tasks such as 3D keypoint estimation and temporal predictions, as well as
+testing different subsets of keypoints and experimenting with new setups for
+inverse kinematics. This aspect encourages a collaborative approach, inviting
+contributions that could further the field of computer vision and kinematic anal-
+ysis through the use of OpenCapBench.

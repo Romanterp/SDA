@@ -1,0 +1,115 @@
+Abstract
+This paper introduces Fortune Analytics Language Model (FALM). FALM empowers
+users with direct access to comprehensive business analysis, including market
+trends, company performance metrics, and expert insights. Unlike generic LLMs,
+FALM leverages a curated knowledge base built from professional journalism, en-
+abling it to deliver precise and in-depth answers to intricate business questions.
+Users can further leverage natural language queries to directly visualize financial
+data, generating insightful charts and graphs to understand trends across diverse
+business sectors clearly. FALM fosters user trust and ensures output accuracy
+through three novel methods: 1) Time-aware reasoning guarantees accurate event
+registration and prioritizes recent updates. 2) Thematic trend analysis explicitly
+examines topic evolution over time, providing insights into emerging business
+landscapes. 3) Content referencing and task decomposition enhance answer fidelity
+and data visualization accuracy. We conduct both automated and human evalua-
+tions, demonstrating FALM’s significant performance improvements over baseline
+methods while prioritizing responsible AI practices. These benchmarks establish
+FALM as a cutting-edge LLM in the business and media domains, with exceptional
+accuracy and trustworthiness.
+1 Introduction
+The ever-shifting business landscape necessitates powerful tools for staying ahead. While large
+language models (LLMs) have shown promise in analyzing vast datasets and generating valuable
+insights for market analysts [Wu et al., 2023], they haven’t yet reached the full potential of state-of-
+the-art general-purpose LLMs [Achiam et al., 2023, Team et al., 2023, Jiang et al., 2024, Touvron
+et al., 2023]. This gap stems from the unique challenge of integrating diverse data sources and
+modalities within the business domain, while ensuring exceptional accuracy and fidelity for real-
+world applications.
+This paper introduces Fortune Analytics Language Model (FALM), a business-centric AI system
+designed specifically for the business and media domain. We leverage the rich heritage of Fortune
+Media, a globally renowned publication known for its in-depth feature articles spanning over 95
+years. This vast knowledge base, created by professional journalists, forms the foundation for FALM’s
+training data. By focusing on the business and media domain, FALM empowers users with intuitive
+and insightful business analysis through two core functionalities:
+• Business-Centric Question Answering: FALM leverages diverse data sources, including news
+articles, video interviews, ranking lists, financial metrics, and business leader profiles, to answer
+complex questions about the ever-evolving business landscape. It identifies trends across various
+topics, from market fluctuations to industry leadership shifts, and offers its analysis based
+on financial indicators. For instance, if a user inquires, “How has the interest in sustainable
+consumption among younger consumers affected purchasing patterns?” FALM will utilize recent
+news articles, reports, and video interviews to generate a thorough and precise analysis.
+• Data Visualization: FALM’s capabilities extend beyond question answering. Users can directly
+visualize financial data through natural language queries and ask for charts or graphs to gain a
+more intuitive understanding of complex financial trends. For instance, a user may ask: “Can you
+show me a graph comparing the revenue of the top 10 companies over the last decade?” FALM
+would interpret the request and generate an easy-to-understand chart illustrating the revenue of
+the top performers over the past ten years.
+However, developing such a tool presents its challenges. While LLMs have revolutionized many
+domains [Saab et al., 2024, George and George, 2023, Webersinke et al., 2021, Chen and Li, 2024],
+ensuring the correctness and consistency of LLM-generated outputs, especially for complex business
+reasoning tasks, remains an active area of research. This paper addresses three key challenges in
+developing business-centric AI systems, focusing on real-world user requirements.
+Time-Aware Reasoning Value of business data is often contingent on its timeliness, and accurate
+contextualization of events necessitates a robust anchoring to relevant temporal coordinates. For
+instance, if a 2020 news article references an event from "last year," the system should interpret "last
+year" as 2019, not 2023. Furthermore, when users pose queries on a certain topic, the model should
+prioritize presenting the most current news and information. FALM integrates an understanding of
+time into the decision-making processes through instruction finetuning. As a result, the model is able
+to maintain relevance, reliability, and accuracy in its responses, enhancing user satisfaction and trust.
+Thematic Modeling for Trend Analysis Business-related queries encompass a diverse range of
+current affairs, corporate activities, social issues, as well as market and industry trends reported by
+journalists. It is important for the model to comprehend the chronological progression of various
+topics or "themes" over time in order to appropriately answer questions such as “How has AI evolved
+in the last five years?” FALM explicitly models trends across several temporal scales (month, quarter,
+year, multi-year) and provides a comprehensive view of how a particular topic has evolved over time,
+taking into account short-term fluctuations as well as long-term trends.
+Accuracy and Trust Accuracy is critical when it comes to business and financial data. As
+probabilistic models, LLMs introduce inherent scholastic behaviors, making precise control of
+accuracy challenging. We address accuracy through three main approaches:
+• Task Decomposition: We decompose many of the challenging tasks into stages in order to achieve
+control over accuracy. For example, in the financial data visualization task, we decompose char
+generation into code generation, followed by an execution phrase using a financial spreadsheet.
+This ensures data fidelity, as the generated code leverages verified financial metrics as to produce
+the visualizations.
+• Knowledge Boundaries: Unlike general-purpose LLMs, our model responds to queries within a
+predefined business domain.. Suppose a question falls outside the training data’s coverage; in
+that case, our model generates a "rejection response" that declares that the inquired topic lies
+outside of its designed domain instead of potentially generating ungrounded outputs.
+• Content Referencing: We integrated a content referencing system into the interface to provide
+users with insights into the model’s reasoning process. This feature offers users insight into
+the model’s decision-making process by providing hyperlinks within the generated text or in
+summarized articles displayed alongside the responses.
+Safety is of paramount importance to AI systems. We employ a multi-layered approach to ensure the
+model generates safe and reliable outputs:
+• Corpus guardrail: To ensure the reliability of the information that FALM generates, we implement
+a multi-layered corpus guardrail system during the data preparation process to mitigate bias and
+protect privacy.
+• Safety alignment: This process involves training the model on a curated dataset with unsafe
+or misleading prompts. By exposing FALM to these questions, the model learns to identify and
+reject these harmful queries at inference time.
+• Deployment guardrail: Even after training, it is crucial to maintain safeguards against potential
+risks during deployment. We implement robust deployment guardrails to ensure the system
+operates safely and protects user privacy.
+• Continuous Human Feedback: During the development process, we have continuously collected
+user feedback via surveys and testing sessions. This feedback process allows us to identify and
+rectify potential safety concerns early on, enabling us to constantly refine the model and ensure
+it operates within safe boundaries.
+In the following sections, we will describe our training data, business-centric question-answering
+capabilities, data visualization techniques, the content reference system, safety guardrails, and
+system designs. We will also present evaluation benchmarks to assess the performance of each FALM
+components.
+
+8 Conclusion
+The Fortune Analytics Language Model (FALM) represents a significant leap forward in applying large
+language models to the business and media domains. FALM empowers businesses to transform data
+analysis and make strategic decisions with greater efficiency and insight. Unlike existing solutions,
+FALM tackles challenges like accuracy and transparency through innovative strategies such as thematic
+modeling, time-aware reasoning, and content referencing. FALM’s core functionalities lie in its
+ability to answer intricate business questions and directly visualize financial metrics. This intuitive
+and insightful analysis of financial trends significantly enhances the user experience. Furthermore,
+training on a vast Fortune Magazine archive ensures comprehensive coverage of business-related
+topics, making FALM a powerful tool for business analysts. The model’s performance undergoes
+continuous evaluation through both automated metrics and human feedback, guaranteeing accuracy
+and reliability. Moreover, FALM prioritizes safety with measures like guardrail datasets and continuous
+human oversight, ensuring model outputs remain safe and reliable for users. In conclusion, FALM
+equips users with valuable tools to navigate complex business landscapes and stay competitive in
+their industries.

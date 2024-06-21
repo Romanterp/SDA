@@ -1,0 +1,94 @@
+Abstract
+Winner-takes-all training is a simple learning
+paradigm, which handles ambiguous tasks by pre-
+dicting a set of plausible hypotheses. Recently,
+a connection was established between Winner-
+takes-all training and centroidal Voronoi tessel-
+lations, showing that, once trained, hypotheses
+should quantize optimally the shape of the condi-
+tional distribution to predict. However, the best
+use of these hypotheses for uncertainty quantifi-
+cation is still an open question. In this work, we
+show how to leverage the appealing geometric
+properties of the Winner-takes-all learners for con-
+ditional density estimation, without modifying its
+original training scheme. We theoretically estab-
+lish the advantages of our novel estimator both in
+terms of quantization and density estimation, and
+we demonstrate its competitiveness on synthetic
+and real-world datasets, including audio data.
+1. Introduction
+Machine-learning-based predictive systems are faced with a
+fundamental limitation when there is some ambiguity in the
+data or in the task itself. This results in a non-deterministic
+relationship between inputs and outputs, which is challeng-
+ing to cope with. Characterizing this inherent uncertainty is
+the problem of conditional distribution estimation.
+The recently introduced Winner-takes-all (WTA) training
+scheme (Guzman-Rivera et al., 2012; Lee et al., 2016) is
+a novel approach addressing ambiguity in machine learn-
+ing. This scheme leverages several models, generally a
+neural network equipped with several heads, to produce
+multiple predictions, also called hypotheses. It trains these
+hypotheses competitively, updating only the hypothesis that
+*Equal contribution. 1Valeo.ai, Paris, France 2LTCI, T ´el ´ecom
+Paris, Institut Polytechnique de Paris, France 3Meta AI, Paris,
+France 4Kyutai, Paris, France. Correspondence to: Victor Letzelter
+<victor.letzelter@telecom-paris.fr>.
+Proceedings of the 41 st International Conference on Machine
+Learning, Vienna, Austria. PMLR 235, 2024. Copyright 2024 by
+the author(s).
+yields the current best prediction. Experimental evidence
+has demonstrated that this approach enhances the diversity
+of predictions, with each head gradually specializing in a
+subset of the data distribution.
+At the same time, a limited body of work has tried to theoreti-
+cally elucidate the appealing characteristics of Winner-takes-
+all learners. Specifically, Rupprecht et al. (2017) described
+the geometrical properties of the trained WTA learners us-
+ing the formalism of centroidal Voronoi tessellations. This
+approach is linked to the field of quantization, where the
+objective is to represent an arbitrary distribution optimally
+using a finite set of points (Zador, 1982).
+Being able to quantize a distribution in an input-dependent
+manner, WTA learners have the potential to model the geo-
+metric information of a distribution. This raises the follow-
+ing question: can WTA learners be used to make accurate
+probabilistic predictions? This paper affirms this possibility.
+We build upon the recent findings of Letzelter et al. (2023),
+which proposed modeling uncertainty from WTA predic-
+tions, using either Dirac or uniform mixtures. We extend
+this idea by proposing a kernel-based density estimator for
+WTA predictors. This enables the computation of uncer-
+tainty metrics, such as the negative log-likelihood, from
+trained WTA models. This development introduces a novel
+method for the probabilistic evaluation of WTA predictions.
+Notably, it can be used even when only a single target from
+the conditional distribution is available for each input.
+The key contributions of this work are as follows:
+1. We introduce an estimator that provides a comprehen-
+sive probabilistic interpretation of WTA predictions
+while retaining their appealing geometric properties.
+2. We mathematically validate the competitiveness of our
+estimator, both in terms of geometric quantization prop-
+erties and probabilistic convergence, as the number of
+hypotheses increases.
+3. We empirically substantiate our estimator through ex-
+periments on both synthetic and real-world data, in-
+cluding audio signals.1
+
+9. Conclusion
+In this paper, we introduced Voronoi-WTA, a novel con-
+ditional density estimator. Voronoi-WTA is a probabilis-
+tic extension of traditional WTA learners, leveraging the
+advantageous geometric properties of the WTA training
+scheme. Notably, Voronoi-WTA demonstrates greater re-
+silience to the choice of scaling factor h compared to the
+more straightforward Kernel-WTA. We support our claims
+with mathematical derivations, discussing the asymptotic
+performance as the number of hypotheses increases. Both
+theoretical analysis and experimental comparisons against
+several baselines highlight the strengths of our estimator.
+The application of our estimator to more realistic datasets
+opens up broad possibilities for future work.
+

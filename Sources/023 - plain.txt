@@ -1,0 +1,77 @@
+Abstract
+Conversational LLMs function as black box systems, leaving users guessing about
+why they see the output they do. This lack of transparency is potentially prob-
+lematic, especially given concerns around bias and truthfulness. To address this
+issue, we present an end-to-end prototype—connecting interpretability techniques
+with user experience design—that seeks to make chatbots more transparent. We
+begin by showing evidence that a prominent open-source LLM has a “user model”:
+examining the internal state of the system, we can extract data related to a user’s
+age, gender, educational level, and socioeconomic status. Next, we describe the
+design of a dashboard that accompanies the chatbot interface, displaying this user
+model in real time. The dashboard can also be used to control the user model and
+the system’s behavior. Finally, we discuss a study in which users conversed with
+the instrumented system. Our results suggest that users appreciate seeing internal
+states, which helped them expose biased behavior and increased their sense of
+control. Participants also made valuable suggestions that point to future directions
+for both design and machine learning research. The project page and video demo
+of our TalkTuner system are available at bit.ly/talktuner-project-page.
+
+1 Introduction
+Conversational Artificial Intelligence (AI) interfaces hold broad appeal—OpenAI’s ChatGPT reports
+more than 100 million users and 1.8 billion monthly page visits [42, 40]—but also have essential
+limitations. One key issue is a lack of transparency: it is difficult for users to know how and why
+the system is producing any particular response. The obvious strategy of simply asking the system
+to articulate its reasoning turns out not to work, since Large Language Models (LLMs) are highly
+unreliable at describing how they arrived at their own output, often producing superficially convincing
+but spurious explanations [46].
+Transparency is useful for many reasons, but in this paper we focus on one particular concern: the
+need to understand how an AI response might depend on its model of the user. LLM-based chatbots
+appear to tailor their answers to user characteristics. Sometimes this is obvious to users, such as when
+conversing in a language with gendered forms of the word “you” [ 47 ]. But it can also happen in
+subtler, more insidious ways, such as “sycophancy,” where the system tries to tell users what they are
+likely to want to hear, based on political and demographic attributes, or “sandbagging,” where it may
+give worse answers to users who give indications of being less educated [38].
+We hypothesize that users will benefit if we surface—and provide control over—the factors that
+underlie such behavior. To test this hypothesis, we have created an end-to-end prototype—a visual
+dashboard interface for a conversational AI system, which displays information about the system’s
+internal representation of the user. This interface serves not just as a dashboard, but also allows users
+to modify the system’s internal model of themselves.
+Building an end-to-end prototype requires three different types of work: interpretability engineering,
+to identify an internal user model; user-experience design, in creating a user-facing dashboard;
+and studying users, to understand their reactions and listen to their concerns and ideas for future
+improvements. For the first step, we based on work on LLaMa2Chat-13B, an open-source large
+language model optimized for chat [ 44 ]. Within the model’s activations, we identified approximate
+internal representations of four important user characteristics (age, gender, education level, and
+socioeconomic status) via linear probes (in a manner similar to [ 54]). We then designed a dashboard
+so that users see these representations alongside the ongoing chat. Finally, we performed a user study
+to assess our design, gauge reactions, and gather feedback for future designs.
+Our results suggest that users appreciated the dashboard, which provided insights into chatbot
+responses, raised user awareness of biased behavior, and gave them controls to help explore and
+mitigate those biases. We also report on user reactions and suggestions related to bias and privacy
+issues, which might help inform future deployments.
+
+10 Conclusion and future work
+A central goal of interpretability work is to make neural networks safer and more effective. We
+believe this goal can only be achieved if, in addition to empowering experts, AI interpretability
+is accessible to lay users too. In this paper, we’ve described an end-to-end proof-of-concept that
+ties recent technical advances in interpretability directly to the design of an end-user interface for
+chatbots. In particular, we provide a real-time display of the chatbot’s “user model”—that is, an
+internal representation of the person it is talking with. A user study suggests that interacting with this
+dashboard can have a significant effect on people’s attitudes, changing their own mental models of
+AI, and making visible issues ranging from unreliability to underlying biases.
+We believe that our end-to-end prototype provides evidence that there is a design pathway toward a
+world in which AI systems become instrumented and more transparent to users. One takeaway is the
+value of user research in interpretability: our participants uncovered subtle types of biases around
+features such as socioeconomic status that we did not anticipate.
+9
+From a broader design perspective, there is huge scope to generalize beyond the four user attributes
+that are our focus, to a more detailed, nuanced user model. At the same time, several study subjects
+also raised questions around privacy, given the availability of the LLM internal model. Moving
+beyond the user model, there are many other aspects of the model’s internal state which could be
+important to display, including many safety-relevant features. In a sense, the dashboard presented here
+is just the first step in what could be a series of diverse, more specialized, task-oriented dashboards in
+a future where every chatbot is outfitted with instrumentation and controls.
+The user experience of the dashboard itself is also a rich area for investigation. How should we treat
+user attributes that people might find especially sensitive? Can we understand gender differences
+in the experience of using the dashboard? Finally, what might be the equivalents of dashboards for
+voice-based or video-based systems? We believe this is a fascinating, important area for future work.

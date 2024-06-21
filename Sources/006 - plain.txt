@@ -1,0 +1,66 @@
+Abstract
+As Large Language Models (LLMs) increasingly become key components in
+various AI applications, understanding their security vulnerabilities and the ef-
+fectiveness of defense mechanisms is crucial. This survey examines the security
+challenges of LLMs, focusing on two main areas: Prompt Hacking and Adver-
+sarial Attacks, each with specific types of threats. Under Prompt Hacking, we
+explore Prompt Injection and Jailbreaking Attacks, discussing how they work, their
+potential impacts, and ways to mitigate them. Similarly, we analyze Adversarial
+Attacks, breaking them down into Data Poisoning Attacks and Backdoor Attacks.
+This structured examination helps us understand the relationships between these
+vulnerabilities and the defense strategies that can be implemented. The survey
+highlights these security challenges and discusses robust defensive frameworks to
+protect LLMs against these threats. By detailing these security issues, the survey
+contributes to the broader discussion on creating resilient AI systems that can resist
+sophisticated attacks.
+1 Introduction
+Since the release of ChatGPT OpenAI [2023], large language models (LLMs) have garnered signifi-
+cant industrial and public attention. The surge in interest has prompted companies to either develop
+new products or integrate LLMs into existing ones Wang and Li [2023]. However, LLMs are often
+trained on massive, uncurated datasets sourced from the internet Brown et al. [2020], which can
+contain sensitive information such as individual medical reports or government IDs Kim et al. [2024].
+This poses a risk of sensitive information leakage when LLMs are used in practice.
+Moreover, while LLMs encapsulate a broad spectrum of human knowledge, they also have the
+potential to inadvertently teach users malicious skills, such as breaking into vehicles or synthesizing
+harmful substances. Despite the presence of safety controls in both open-source models like LLaMA2
+and Gemma Touvron et al. [2023], Team et al. [2024] and proprietary models such as GPT-4 and
+Claude-3 OpenAI [2023], Anthropic [2024], the dynamics of "shield and spear" persist, with attack
+strategies continuously evolving to become more sophisticated and potentially more destructive. This
+has given rise to a substantial community of AI skeptics and pessimists who highlight these risks
+Ambartsoumean and Yampolskiy [2023].
+While these concerns are often overlooked by both developers and users, the field of LLM security
+is becoming increasingly critical. Recent research Jain et al. [2023], Xie et al. [2023], Robey et al.
+[2023] has focused on defensive strategies against such vulnerabilities. In this survey, we primarily
+discuss two types of attacks that are broadly applicable to both open and closed-source LLMs: Prompt
+Hacking and Adversarial Attacks, which is shown in Figure 1. These areas are particularly important
+because they are universally relevant due to their reliance on interacting with the inputs and outputs
+of the models. Both open-source and closed-source models can be targeted through these interactions,
+making these attacks practical in real-world scenarios where access to model internals is restricted. In
+contrast, attacks that require access to model architecture or gradients, such as gradient-based attacks,
+are not feasible with closed-source models.
+Prompt Hacking and Adversarial Attacks exploit the interaction layer of LLMs, which is a common
+interface across all types of models, making these attacks significant for any deployment of LLMs.
+These attacks can lead to severe consequences such as data leakage, unauthorized access, misinfor-
+mation, and the generation of harmful content. The widespread deployment of LLMs in various
+applications amplifies the potential impact of these vulnerabilities. Moreover, the techniques used in
+Prompt Hacking and Adversarial Attacks are continuously evolving, making them a moving target
+for researchers and developers. This dynamic nature necessitates ongoing study and innovation in
+defense mechanisms to stay ahead of potential threats.
+Understanding and mitigating these attacks provides a foundation for broader security research in
+LLMs. It helps in developing a comprehensive security framework that can be adapted to address
+emerging threats. By focusing on these areas, we aim to provide a thorough understanding of
+the vulnerabilities and defense strategies applicable to both open-source and closed-source LLMs,
+contributing to the development of more secure and resilient AI systems.
+
+4 Conclusion
+This survey explored the security vulnerabilities of Large Language Models (LLMs), focusing
+on Prompt Hacking and Adversarial Attacks. Prompt Hacking, including Prompt Injection and
+Jailbreaking, manipulates input prompts to produce harmful outputs, bypassing safety measures.
+Defenses include data preprocessing, paraphrasing, re-tokenization, and advanced filtering algorithms.
+Adversarial Attacks, particularly Backdoor and Data Poisoning Attacks, embed hidden triggers
+or manipulate training data to induce malicious behaviors. Effective defenses involve fine-tuning,
+embedding purification, clustering-based detection, and anomaly detection. Despite these strategies,
+the evolving nature of attacks necessitates continuous research and innovation. Ensuring the security
+of LLMs is crucial as these models become more integrated into AI applications. Developing robust,
+adaptive defense mechanisms is essential for creating resilient AI systems capable of withstanding
+sophisticated threats.
