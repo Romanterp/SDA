@@ -33,6 +33,6 @@
 - **Conciseness:** The response is slightly less concise compared to others, introducing some redundancy. It could be tightened to focus more sharply on the main points of the paper.
 - **Insightfulness:** Although it captures the general idea of variance in benchmarks, it lacks depth in discussing the implications and the broader context of the findings. More emphasis on the practical recommendations and future directions suggested by the research would enhance its insightfulness.
 
-### Sumamry:
+### Summary:
 
 Claude ranks highest due to its comprehensive and clear summary that effectively captures the essence of the research paper while maintaining an accessible narrative. **Response 3** is also strong but slightly less engaging and detailed. **Response 2**, though highly engaging, oversimplifies and lacks some depth in its summary, placing it last in this ranking.
