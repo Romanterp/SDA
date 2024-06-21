@@ -1,5 +1,10 @@
 Ranking the three responses based on the criteria provided (Relevance, Clarity, Coherence, Conciseness, and Insightfulness), I would rank them as follows:
 
+### Ranking:
+1. **Claude**
+2. **Gemini**
+3. **ChatGPT**
+
 ### Rank 1: Claude
 
 **Reasons:**
