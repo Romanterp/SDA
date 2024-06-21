@@ -1,4 +1,3 @@
-# Import necessary libraries
 import transformers
 from transformers import pipeline
 import torch
