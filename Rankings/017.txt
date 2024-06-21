@@ -1,5 +1,3 @@
-Based on the provided summaries, here is the ranking and feedback for each response:
-
 ### Ranking:
 1. **ChatGPT**
 2. **Gemini**
@@ -9,7 +7,7 @@ Based on the provided summaries, here is the ranking and feedback for each respo
 
 ---
 
-### Response 1:
+### ChatGPT:
 #### **Rank: 1**
 
 **Strengths:**
@@ -24,7 +22,7 @@ Based on the provided summaries, here is the ranking and feedback for each respo
 
 ---
 
-### Response 3:
+### Gemini:
 #### **Rank: 2**
 
 **Strengths:**
@@ -40,7 +38,7 @@ Based on the provided summaries, here is the ranking and feedback for each respo
 
 ---
 
-### Response 2:
+### Claude:
 #### **Rank: 3**
 
 **Strengths:**
@@ -57,5 +55,5 @@ Based on the provided summaries, here is the ranking and feedback for each respo
 
 ---
 
-### General Comments:
+### Summary:
 All three responses perform well in addressing the primary question and criteria, but Response 1 stands out for its comprehensive and insightful coverage. Response 3 excels in making the content accessible and engaging for a general audience, while Response 2, though clear and concise, could benefit from a more cohesive narrative and detailed exploration of the research’s implications.
