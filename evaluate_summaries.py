@@ -14,27 +14,6 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f"Using device: {device}")
 
 
-def load_model(model_name="FacebookAI/roberta-large"):
-    config = transformers.AutoConfig.from_pretrained(model_name,
-                                                     trust_remote_code=True)
-    tokenizer = transformers.AutoTokenizer.from_pretrained(model_name,
-                                                           truncation=True)
-    model = transformers.AutoModelForCausalLM.from_pretrained(model_name,
-                                                              config=config,
-                                                              torch_dtype=torch.bfloat16,
-                                                              trust_remote_code=True)
-    model.to(device)
-    return model, tokenizer
-
-
-def setup_pipeline(model, tokenizer):
-    # Set pad_token_id to eos_token_id to avoid errors in open-end generation
-    pipe = pipeline('text-generation', model=model, tokenizer=tokenizer,
-                    device=0 if torch.cuda.is_available() else -1,
-                    pad_token_id=tokenizer.eos_token_id)
-    return pipe
-
-
 def read_text_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         return file.read().strip()
@@ -54,9 +33,6 @@ def compute_bert_score(generated_summary, reference_summary):
 
 
 def main():
-    model_name = "FacebookAI/roberta-large"
-    model, tokenizer = load_model(model_name)
-    pipe = setup_pipeline(model, tokenizer)
 
     settings = ["zero_shot", "article_top_summary", "article_all_summary",
                 "article_all_summary_explanation"]
