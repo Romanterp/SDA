@@ -1,7 +1,7 @@
-### **Ranking:**
-1. **Chat**
-2. **Gemini**
-3. **Claude**
+Ranking:
+1. ChatGPT
+2. Gemini
+3. Claude
 
 
 ChatGPT is the most comprehensive and insightful, effectively covering the research methods, findings, and broader implications. Gemini is clear and focused but lacks some depth in analysis and detail. Claude, while concise and accurate, is the least detailed and doesn't explore the nuances and broader impacts as thoroughly as the other responses.
