@@ -5,7 +5,6 @@ Rankings:
 
 1. ChatGPT
 
-Feedback:
 - Relevance : ChatGPT effectively captures the key points of the original paper, including the objectives, methods, and significant findings. It integrates details about the WTA approach, the novel Voronoi-WTA estimator, and their applications in handling uncertainty.
 - Clarity: The summary is clear and accessible, explaining complex concepts like Voronoi tessellations and conditional density estimation in a way that is understandable to a non-expert audience. However, the language could be slightly simplified in some places for better readability.
 - Coherence: The response maintains a smooth narrative flow from introduction through to the conclusion, making it easy to follow the logical progression of ideas.
@@ -17,7 +16,6 @@ ChatGPT provides a thorough and well-structured overview of the research paper. 
 
 2. Gemini
 
-Feedback:
 - Relevance: The summary captures the essence of the research and focuses on the introduction of Voronoi-WTA and its benefits. It does a good job of explaining the problem and the proposed solution.
 - Clarity: This response is highly readable and accessible, using relatable analogies and straightforward language to explain the complex topics. The use of bolded terms for key concepts enhances clarity.
 - Coherence: The structure is logical and easy to follow, with a clear progression from the problem statement to the proposed solution and its advantages. However, the narrative could be more smoothly integrated to link sections more naturally.
@@ -29,7 +27,6 @@ Gemini is clear, concise, and accessible, making it an excellent summary for a g
 
 3. Claude
 
-Feedback:
 - Relevance: The summary covers the main points of the research paper, including the WTA method, the introduction of the Voronoi-WTA estimator, and its applications. However, it could benefit from a more focused narrative on the broader impact and significance of the findings.
 - Clarity: While the summary is clear, it uses more technical language and less simplified explanations than the other responses. This makes it slightly less accessible to a general audience.
 - Coherence: The narrative flow is somewhat disjointed, with less effective use of transitions between sections. The structure could be more unified to better guide the reader through the summary.
