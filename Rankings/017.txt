@@ -3,7 +3,7 @@ Ranking:
 2. Gemini
 3. Claude
 
-Rank 1: ChatGPT:
+1. ChatGPT
 
 Relevance: The summary effectively integrates all key aspects of the original paper, including the objectives, methods, and findings. It provides a thorough overview of both OpenCapBench and SynthPose, capturing their roles and impact in unifying biomechanics and computer vision.
 Clarity: The language is clear and accessible, making complex concepts understandable to the general public. Technical terms are explained adequately within the context.
@@ -13,7 +13,7 @@ Insightfulness: The response demonstrates a deep understanding of the paper, hig
 
 - Although the summary is highly detailed, it could benefit from slightly simplifying some of the more technical terms for an even broader audience.
 
-Rank 2: Gemini:
+2. Gemini
 
 Relevance: The summary effectively addresses the primary themes of the research, focusing on the integration of biomechanics and computer vision through OpenCapBench and SynthPose. It captures the essence of the research goals and findings.
 Clarity: This response is particularly strong in making the content relatable to a general audience. It uses analogies (e.g., comparing camera-based analysis to traditional physical therapy methods) to enhance understanding.
@@ -24,7 +24,7 @@ Insightfulness: It highlights the practical implications of the research and the
 - This summary is less detailed than Response 1, particularly regarding the specific limitations of OpenCapBench and the precise benefits of SynthPose. It could benefit from including more about the specific findings and the quantitative improvements brought by the new methods.
 - It slightly simplifies the content, which, while making it more accessible, might omit critical nuances important to understanding the full scope of the research.
 
-Rank 3: Claude:
+3. Claude
 
 Relevance: The summary adequately addresses the main objectives and contributions of the paper, including the introduction of OpenCapBench and SynthPose. It touches on the integration of biomechanics and computer vision.
 Clarity: The language is clear, though it leans more towards a technical audience compared to Response 3.
