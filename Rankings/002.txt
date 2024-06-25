@@ -1,7 +1,7 @@
-### Ranking:
-1. **ChatGPT**
-2. **Gemini**
-3. **Claude**
+Ranking:
+1. ChatGPT
+2. Gemini
+3. Claude
 
 
 ChatGP excels in creating a coherent and engaging narrative that integrates the key points from the paper effectively. It balances technical detail with accessibility, making it the most comprehensive and reader-friendly summary among the three.
